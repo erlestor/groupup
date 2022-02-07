@@ -2,13 +2,14 @@ import mongoose from "mongoose";
 import express from "express";
 import Cors from "cors"
 import Users from "./schemas/dbUser.js"
-//mongoDB pw: 
+
+//mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority
 
 //Config
 const app = express();
 
 const port = process.env.port || 8001;
-const connectionUrl = "mongodb+srv://admin:<password>@cluster0.w8g0v.mongodb.net/groupupdb?retryWrites=true&w=majority"
+const connectionUrl = "mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority";
 
 app.use(express.json());
 app.use(Cors());
