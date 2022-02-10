@@ -1,0 +1,38 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 228px;
+  margin: 0 80px 20px 80px;
+}
+
+.login-page input {
+  margin: 10px;
+  border-radius: 10px 10px 10px 10px;
+  border-color: black;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.login-page .btn {
+  padding: 10px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #1059ef;
+  color: white;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+}
