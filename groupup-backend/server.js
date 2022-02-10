@@ -43,7 +43,7 @@ app.post("/register", (req, res) => {
 });
 
 //Check for if user by that username is already registered in database
-app.get("/user", (req, res) => {
+app.get("/userByName", (req, res) => {
     Users.findOne({username: req.query.username}, function (err, user) {
         if (err) {
             res.status(500).send(err);
@@ -54,7 +54,7 @@ app.get("/user", (req, res) => {
 });
 
 //Get all users
-app.get("/groupup/users", (req, res) => {
+app.get("/users", (req, res) => {
     Users.find((err, data) => {
         if (err) {
             res.status(500).send(err);
