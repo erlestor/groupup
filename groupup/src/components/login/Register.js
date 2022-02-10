@@ -75,12 +75,19 @@ const Register = () => {
         password: password,
       })
       .then(function (response) {
-        console.log(response)
-
-        clearInputs()
+        console.log(response.status)
+        if (response.status === 200) {
+          console.log(response)
+          clearInputs()
+          setError("")
+        }
       })
       .catch(function (error) {
-        console.log(error)
+        if (error.response.status === 400) {
+          setError("user already exists")
+        } else {
+          setError("internal server error")
+        }
       })
   }
 
