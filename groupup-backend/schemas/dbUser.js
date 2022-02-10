@@ -4,7 +4,7 @@ const userSchema = mongoose.Schema({
     name: String,
     password: String,
     email: String,
-    age: Date,
+    birthDate: Date,
 })
 
 export default mongoose.model("users", userSchema);
