@@ -68,7 +68,7 @@ app.get("/users", (req, res) => {
 //Login
 //Check that user is in database and entered password is correct
 app.get("/login", (req, res) => {
-    Users.findOne({username: req.query.username, password: req.query.password}, function (err, user) {
+    Users.findOne({username: req.body.username, password: req.body.password}, function (err, user) {
         if (err) {
             res.status(500).send(err);
         }
