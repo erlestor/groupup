@@ -2,17 +2,18 @@ import mongoose from "mongoose";
 import express from "express";
 import Cors from "cors"
 import Users from "./schemas/dbUser.js"
-
-//mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority
+import bodyparser from "body-parser";
+//mongoDB pw: 
 
 //Config
 const app = express();
 
 const port = process.env.port || 8001;
-const connectionUrl = "mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority";
+const connectionUrl = "mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority"
 
 app.use(express.json());
 app.use(Cors());
+app.use(bodyparser.json());
 
 mongoose.connect(connectionUrl, {
     useNewUrlParser: true,
@@ -21,11 +22,9 @@ mongoose.connect(connectionUrl, {
 
 //API Endpoints
 
-//Bruker mongoose schema (se dbUser, bare en mal for objektene)
-//Bruker create, find, o.l for å legge data inn eller å hente data fra MongoDB
 
-//Post for single user
-app.post("/groupup/user", (req, res) => {
+//Post for single user - register
+app.post("/register", (req, res) => {
     const dbUser = req.body;
     Users.create(dbUser, (err, data) => {
         if (err) {
@@ -35,6 +34,17 @@ app.post("/groupup/user", (req, res) => {
         }
     });
 })
+
+//Check for if user by that username is already registered in database
+app.get("/user", (req, res) => {
+    Users.findOne({username: req.query.username}, function (err, user) {
+        if (err) {
+            res.status(500).send(err);
+        } else if (user) {
+            res.status(400).send("This user already exists.");
+        }
+    });
+});
 
 //Get all users
 app.get("/groupup/users", (req, res) => {
@@ -48,13 +58,19 @@ app.get("/groupup/users", (req, res) => {
 });
 
 
-//Get user by username specified as param
-app.get("/groupup/user", (req, res) => {
-    Users.findOne({username: req.query.username}, function (err, user) {
+//Login
+//Check that user is in database and entered password is correct
+app.get("/login", (req, res) => {
+    Users.findOne({username: req.query.username, password: req.query.password}, function (err, user) {
         if (err) {
             res.status(500).send(err);
-        } else if (user) {
+        }
+        
+        if (user) {
             res.status(200).send(user);
+            //Route to homepage elns
+        } else {
+            res.status(404).send("Wrong username or password.")
         }
     });
 });
