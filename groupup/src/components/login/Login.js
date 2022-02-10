@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import axios from "../../axios"
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -9,6 +10,36 @@ const Login = () => {
   // Handle submit
   const handleLogInSubmit = (e) => {
     e.preventDefault()
+    validateUserInfo()
+  }
+
+  const clearInputs = () => {
+    setEmail("")
+    setPassword("")
+  }
+
+  const validateUserInfo = async () => {
+    await axios
+      .post("/login", {
+        email,
+        password,
+      })
+      .then((response) => {
+        console.log(response.status)
+        if (response.status === 200) {
+          //nice
+          console.log(response)
+          setError("")
+          clearInputs("")
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          setError("Invalid email/password combination")
+        } else {
+          setError("internal server error")
+        }
+      })
   }
 
   return (
@@ -35,7 +66,7 @@ const Login = () => {
           value="Log in"
           onClick={(e) => handleLogInSubmit(e)}
         />
-        <p>{error}</p>
+        <p className="error">{error}</p>
       </form>
     </div>
   )
