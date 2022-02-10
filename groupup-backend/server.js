@@ -27,7 +27,7 @@ mongoose.connect(connectionUrl, {
 app.post("/register", (req, res) => {
     const dbUser = req.body;
 
-    Users.findOne({username: req.body.username}, function(err, user) {
+    Users.findOne({email: req.body.email}, function(err, user) {
         if (user) {
             res.status(400).send("This user already exists.")
         } else {
@@ -44,7 +44,7 @@ app.post("/register", (req, res) => {
 
 //Check for if user by that username is already registered in database
 app.get("/userByName", (req, res) => {
-    Users.findOne({username: req.query.username}, function (err, user) {
+    Users.findOne({email: req.query.email}, function (err, user) {
         if (err) {
             res.status(500).send(err);
         } else if (user) {
@@ -68,7 +68,7 @@ app.get("/users", (req, res) => {
 //Login
 //Check that user is in database and entered password is correct
 app.get("/login", (req, res) => {
-    Users.findOne({username: req.body.username, password: req.body.password}, function (err, user) {
+    Users.findOne({username: req.body.email, password: req.body.password}, function (err, user) {
         if (err) {
             res.status(500).send(err);
         }
