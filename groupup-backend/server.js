@@ -26,14 +26,21 @@ mongoose.connect(connectionUrl, {
 //Post for single user - register
 app.post("/register", (req, res) => {
     const dbUser = req.body;
-    Users.create(dbUser, (err, data) => {
-        if (err) {
-            res.status(500).send(err);
+
+    Users.findOne({username: req.body.username}, function(err, user) {
+        if (user) {
+            res.status(400).send("This user already exists.")
         } else {
-            res.status(201).send(data);
+            Users.create(dbUser, (err, data) => {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                   res.status(200).send(data);
+                }
+            });
         }
-    });
-})
+    })
+});
 
 //Check for if user by that username is already registered in database
 app.get("/user", (req, res) => {
@@ -65,10 +72,8 @@ app.get("/login", (req, res) => {
         if (err) {
             res.status(500).send(err);
         }
-        
         if (user) {
             res.status(200).send(user);
-            //Route to homepage elns
         } else {
             res.status(404).send("Wrong username or password.")
         }
