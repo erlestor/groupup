@@ -2,17 +2,18 @@ import mongoose from "mongoose";
 import express from "express";
 import Cors from "cors"
 import Users from "./schemas/dbUser.js"
-
-//mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority
+import bodyparser from "body-parser";
+//mongoDB pw: 
 
 //Config
 const app = express();
 
 const port = process.env.port || 8001;
-const connectionUrl = "mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority";
+const connectionUrl = "mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority"
 
 app.use(express.json());
 app.use(Cors());
+app.use(bodyparser.json());
 
 mongoose.connect(connectionUrl, {
     useNewUrlParser: true,
@@ -21,23 +22,39 @@ mongoose.connect(connectionUrl, {
 
 //API Endpoints
 
-//Bruker mongoose schema (se dbUser, bare en mal for objektene)
-//Bruker create, find, o.l for å legge data inn eller å hente data fra MongoDB
 
-//Post for single user
-app.post("/groupup/user", (req, res) => {
+//Post for single user - register
+app.post("/register", (req, res) => {
     const dbUser = req.body;
-    Users.create(dbUser, (err, data) => {
+
+    Users.findOne({email: req.body.email}, function(err, user) {
+        if (user) {
+            res.status(400).send("This user already exists.")
+        } else {
+            Users.create(dbUser, (err, data) => {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                   res.status(200).send(data);
+                }
+            });
+        }
+    })
+});
+
+//Check for if user by that username is already registered in database
+app.get("/userByName", (req, res) => {
+    Users.findOne({email: req.query.email}, function (err, user) {
         if (err) {
             res.status(500).send(err);
-        } else {
-            res.status(201).send(data);
+        } else if (user) {
+            res.status(400).send("This user already exists.");
         }
     });
-})
+});
 
 //Get all users
-app.get("/groupup/users", (req, res) => {
+app.get("/users", (req, res) => {
     Users.find((err, data) => {
         if (err) {
             res.status(500).send(err);
@@ -48,13 +65,17 @@ app.get("/groupup/users", (req, res) => {
 });
 
 
-//Get user by username specified as param
-app.get("/groupup/user", (req, res) => {
-    Users.findOne({username: req.query.username}, function (err, user) {
+//Login
+//Check that user is in database and entered password is correct
+app.get("/login", (req, res) => {
+    Users.findOne({username: req.body.email, password: req.body.password}, function (err, user) {
         if (err) {
             res.status(500).send(err);
-        } else if (user) {
+        }
+        if (user) {
             res.status(200).send(user);
+        } else {
+            res.status(404).send("Wrong username or password.")
         }
     });
 });
