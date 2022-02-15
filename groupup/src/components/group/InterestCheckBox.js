@@ -1,4 +1,3 @@
-// Authored by: Johan solbakken
 import React, { useState } from 'react'
 
 const InterestCheckBox = props => {
@@ -16,8 +15,9 @@ const InterestCheckBox = props => {
              "padding": "1px",
              "borderRadius": "4px"}} 
         onClick={()=>{
-        setChecked(!checked);
-        callback(!checked);
+        let bool = !checked
+        setChecked(bool);
+        callback(bool);
         }}>
         {title}
     </div>
