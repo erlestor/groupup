@@ -7,10 +7,11 @@ import InterestCheckBox from './InterestCheckBox'
  * Gruppenavn
  * Interesser - tur, spill, sport, matlaging, quiz, ..
  * Beskrivelse
- * Bilde
  * 
- * Lokasjon (Spørsmål til studass. Er avstand i km et poeng?)
- * (Ønsket aktivitet + dato)
+ * Ønsket aktivitet + dato (?)
+ * Lokasjon for ønsket aktivitet (Spørsmål til studass. Er avstand i km et poeng?)
+ *      Evt. bare et streng-input, kan legge i backloggen å legge til Google Maps API e.l.
+ * Bilde for ønsket aktivitet, kanskje bare hente første treff på google bilder med søkeord fra interests?
  */
 
 const CreateGroup = () => {
