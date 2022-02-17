@@ -5,36 +5,36 @@ import PropTypes from "prop-types";
 const Group = ({
   name,
   members,
-  description,
   interests,
   location,
   picture,
   meetingDate,
 }) => {
-  const memberMap = members.map((member) => member + ", ");
-  const interestsMap = interests.map((interest) => interest + ", ");
+  const membersString = members.join(', ')
+  const interestsString = interests.join(', ')
+
   return (
-    <div className="group-container">
+    <div className="group-container" >
       <span>
         <img src={require("./friends.png")} />
         <h3 className="group-info">{name}</h3>
         {members !== [] ? (
-          <div className="group-info">Members: {memberMap}</div>
+          <div className="group-info"><span className="bold">Members:</span> {membersString}</div>
         ) : (
           ""
         )}
         {interests !== [] ? (
-          <div className="group-info">Interests: {interestsMap}</div>
+          <div className="group-info"><span className="bold">Interests:</span> {interestsString}</div>
         ) : (
           ""
         )}
         {location !== "" ? (
-          <div className="group-info">Location: {location}</div>
+          <div className="group-info"><span className="bold">Location:</span>  {location}</div>
         ) : (
           ""
         )}
         {meetingDate !== "" ? (
-          <div className="group-info">Meeting Date: {meetingDate}</div>
+          <div className="group-info"><span className="bold">Meeting time:</span>  {meetingDate}</div>
         ) : (
           ""
         )}
