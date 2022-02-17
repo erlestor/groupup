@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import "./group.css"
+import "./createGroup.css"
 import ImageSelector from './ImageSelector';
 
 import InterestCheckBox from './InterestCheckBox'

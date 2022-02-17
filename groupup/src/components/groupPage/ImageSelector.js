@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import "./group.css"
+import "./createGroup.css"
 
 import img1 from '../../Images/1.png'
 import img2 from '../../Images/2.png'
