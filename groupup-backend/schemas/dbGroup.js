@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const groupSchema = mongoose.Schema({
   name: String,
-  interest: String,
+  interests: [String],
   description: String,
   date: String,
   location: String,
