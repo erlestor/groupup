@@ -98,12 +98,12 @@ app.get("/getGroup", (req, res) => {
   console.log("fuck d her da")
   const id = req.body.id
 
-  Groups.findOne({ _id: id }, function (err, user) {
+  Groups.findOne({ _id: id }, function (err, group) {
     if (err) {
       res.status(500).send(err)
     }
-    if (user) {
-      res.status(200).send(user)
+    if (group) {
+      res.status(200).send(group)
     } else {
       res.status(404).send("No group with that id.")
     }
@@ -127,6 +127,25 @@ app.post("/createGroup", (req, res) => {
       })
     } else {
       res.status(500).send("admin does not exist")
+    }
+  })
+})
+
+// body vil se slik ut: {userEmail: "some@email.no", groupId: "1231232132"}
+app.put("/addUserToGroup", (req, res) => {
+  Users.findOne({ email: req.body.userEmail }, function (err, user) {
+    // user er brukeren som skal leggges til i gruppen
+    if (user) {
+      Groups.findOneAndUpdate(
+        { _id: req.body.groupId },
+        { $addToSet: { members: user.email } },
+        (err, data) => {
+          if (err) res.status(500).send(err)
+          else res.status(200).send(data)
+        }
+      )
+    } else {
+      res.status(500).send("user does not exist")
     }
   })
 })
