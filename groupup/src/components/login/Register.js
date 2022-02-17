@@ -92,7 +92,7 @@ const Register = () => {
   }
 
   return (
-    <div>
+    <div className="register-comp">
       <h2>Register</h2>
       <form className="register-form">
         <input
