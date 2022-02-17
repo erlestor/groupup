@@ -24,8 +24,8 @@
 }
 .group-container img {
   margin-right: 20px;
-  height: 100px;
-  width: 100px;
+  height: 120px;
+  width: 120px;
   border-radius: 100px;
   float: left;
 }
@@ -88,7 +88,7 @@ button {
 }
 .group-desc {
   align-self: center;
-  max-width: 600px;
+  width: 600px;
   user-select: none;
   text-align: left;
 }
