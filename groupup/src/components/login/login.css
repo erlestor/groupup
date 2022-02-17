@@ -1,14 +1,15 @@
 .login-page {
+  text-align: center;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  min-height: 73vh;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
   max-width: 228px;
-  margin: 0 80px 20px 80px;
 }
 
 .login-page input {
@@ -36,4 +37,11 @@
 
 .error {
   color: red;
+}
+
+.login-comp {
+  margin-left: 40px;
+}
+.register-comp {
+  margin-right: 40px;
 }

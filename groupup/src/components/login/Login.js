@@ -43,7 +43,7 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className="login-comp">
       <h2>Login</h2>
       <form className="login-form">
         <input
