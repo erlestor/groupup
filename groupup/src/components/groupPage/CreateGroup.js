@@ -4,6 +4,8 @@ import ImageSelector from './ImageSelector';
 
 import InterestCheckBox from './InterestCheckBox'
 
+import axios from "../../axios"
+
 /**
  * Gruppenavn
  * Interesser - tur, spill, sport, matlaging, quiz, ..
@@ -18,6 +20,9 @@ import InterestCheckBox from './InterestCheckBox'
 
 const CreateGroup = () => {
 
+    // user will be a prop
+    const user = {email:"1@2.com"}
+
     const interests = ["Quiz", "Brettspill", "Trav", "Tur", "Matlaging", "Sport", "Dataspill", "Klatring", "Frisbeegolf"];
     const fylker = ["Oslo", "Rogaland", "Møre og Romsdal", "Nordland", "Viken", "Innlandet", "Vestfold og Telemark", "Agder", "Vestland", "Trøndelag", "Troms og Finnmark"]
 
@@ -25,18 +30,30 @@ const CreateGroup = () => {
     const [groupDescription, setGroupDescription] = useState("");
     const [error, setError] = useState("");
     const [location, setLocation] = useState("");
-    const [admin, setAdmin] = useState(null);
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState("");
     const [selectedInterests, setSelectedInterests] = useState([]);
-
-    useEffect(() => {
-        //idk??
-        setAdmin("")
-    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        validateForm()
+        if (validateForm()) createGroup()
+    }
+
+    const createGroup = async () => {
+       await axios.post("/createGroup", {
+           name: groupName,
+           description: groupDescription,
+           interests: selectedInterests,
+           date: "",
+           location: location,
+            adminEmail: user.email,
+            members: [user.email],
+            image: image
+       }).then((response) => {
+           console.log(response)
+       }).catch((err) => {
+           console.error(err)
+           setError("Internal server error.")
+       })
     }
 
     const validateForm = () => {
@@ -72,7 +89,7 @@ const CreateGroup = () => {
     return (
     <div className="container">
         <div className="form-container">
-            <h2>Lag ny gruppe</h2>
+            <h2 style={{textAlign: "center"}}>Lag ny gruppe</h2>
             <form>
                 <input
                  required
