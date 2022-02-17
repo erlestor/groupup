@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import express from "express"
 import Cors from "cors"
 import Users from "./schemas/dbUser.js"
+import Groups from "./schemas/dbGroup.js"
 import bodyparser from "body-parser"
 //mongoDB pw:
 
@@ -80,6 +81,54 @@ app.post("/login", (req, res) => {
       }
     }
   )
+})
+
+// gets all groups
+app.get("/groups", (req, res) => {
+  Groups.find((err, data) => {
+    if (err) {
+      res.status(500).send(err)
+    } else {
+      res.status(200).send(data)
+    }
+  })
+})
+
+app.get("/getGroup", (req, res) => {
+  console.log("fuck d her da")
+  const id = req.body.id
+
+  Groups.findOne({ _id: id }, function (err, user) {
+    if (err) {
+      res.status(500).send(err)
+    }
+    if (user) {
+      res.status(200).send(user)
+    } else {
+      res.status(404).send("No group with that id.")
+    }
+  })
+})
+
+// oppretter gruppe. sjekker at adminEmail er gyldig
+app.post("/createGroup", (req, res) => {
+  const dbGroup = req.body
+  dbGroup.members = [req.body.adminEmail]
+
+  Users.findOne({ email: req.body.adminEmail }, function (err, user) {
+    if (user) {
+      // dette betyr at adminEmail er gyldig
+      Groups.create(dbGroup, (err, data) => {
+        if (err) {
+          res.status(500).send(err)
+        } else {
+          res.status(200).send(data)
+        }
+      })
+    } else {
+      res.status(500).send("admin does not exist")
+    }
+  })
 })
 
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
