@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./group.css";
 import PropTypes from "prop-types";
+import axios from "../../axios"
 
 const Group = ({
   name,
@@ -10,16 +11,42 @@ const Group = ({
   picture,
   meetingDate,
 }) => {
-  const membersString = members.join(', ')
   const interestsString = interests.join(', ')
+  const thisYear = new Date().getFullYear()
+  const [span, setSpan] = useState();
+
+  //Get birthdate of all users, return lowest - highest
+  const calcAgeSpan = async () => {
+    await axios.get("/users").then((response) => {
+      const users = response.data
+      const usersInMembers = users.filter(user => members.includes(user.email))
+      const userAges = []
+      usersInMembers.forEach(element => {
+        userAges.push(parseInt(element.birthDate.split('-')[0]))
+      });
+      const span =  (thisYear - Math.max(...userAges))+" to "+(thisYear - Math.min(...userAges))
+      setSpan(span)
+    }).catch((err) => {
+      console.error(err)
+    })
+  }
+  calcAgeSpan();
+  
+  
 
   return (
     <div className="group-container" >
+      
       <span>
         <img src={require("./friends.png")} />
         <h3 className="group-info">{name}</h3>
         {members !== [] ? (
-          <div className="group-info"><span className="bold">Members:</span> {membersString}</div>
+          <div className="group-info"><span className="bold">Member count:</span> {members.length}</div>
+        ) : (
+          ""
+        )}
+        {members !== [] ? (
+          <div className="group-info"><span className="bold">Age span:</span> {span}</div>
         ) : (
           ""
         )}
