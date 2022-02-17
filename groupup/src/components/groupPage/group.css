@@ -52,6 +52,8 @@
   border-radius: 10px;
   background-color: white;
   display: flex;
+  justify-content: center;
+  text-align: left;
   flex-direction: column;
   user-select: none;
 }
@@ -88,4 +90,5 @@ button {
   align-self: center;
   max-width: 600px;
   user-select: none;
+  text-align: left;
 }
