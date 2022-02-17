@@ -80,3 +80,9 @@
     cursor: pointer;
     margin: 10px;
   }
+
+.add-member-input {
+    justify-content: center;
+    width: 40%;
+    
+}
