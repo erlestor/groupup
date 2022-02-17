@@ -72,7 +72,7 @@ const CreateGroup = () => {
     return (
     <div className="container">
         <div className="form-container">
-            <h2>Lag ny gruppe</h2>
+            <h2 style={{textAlign: "center"}}>Lag ny gruppe</h2>
             <form>
                 <input
                  required
