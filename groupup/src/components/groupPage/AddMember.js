@@ -12,15 +12,15 @@ const AddMember = () => {
     }
   return (
    <div className='container'>
-        <div className = "form-container" style={{backgroundColor: "white"}}>
+        <div className = "form-container">
             <form>
                 <label>Legg til gruppemedlem: </label>
                 <input className = "group-input add-member-input"
-                placeholder = "Add Member"
+                placeholder = "Add member by email"
                 onChange={(e) => setMember(e.target.value)}
                 
                 />
-                <button className='btn' onClick={(e) => handleSubmit(e)}>Lag gruppe </button>
+                <button className='btn form-btn' onClick={(e) => handleSubmit(e)}>Legg til medlem i gruppe </button>
             </form>
         </div>
    </div>
