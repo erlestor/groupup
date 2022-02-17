@@ -8,6 +8,7 @@ const groupSchema = mongoose.Schema({
   location: String,
   adminEmail: String,
   members: [String],
+  image: String,
 })
 
 export default mongoose.model("groups", groupSchema)
