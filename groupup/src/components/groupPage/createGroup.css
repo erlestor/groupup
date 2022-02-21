@@ -1,86 +1,88 @@
 .container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .form-container {
-    min-width: 500px;
-    width: 50%;
-    height: auto;
-    border-radius: 10px;
-    padding: 5px;
+  min-width: 500px;
+  width: 50%;
+  height: auto;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .form-container > form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .group-input {
-    
-    width: 40%;
-    margin: 5px 0 5px 0;
-    padding: 10px;
-    border-radius: 10px;
-    border: solid 1px black;
-    font-family: Arial;
+  width: 40%;
+  margin: 5px 0 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: solid 1px black;
+  font-family: Arial;
 }
 
 .interest-container {
-    width: 50%;
-    margin-bottom: 5px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
+  width: 50%;
+  margin-bottom: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .select-fylke {
-    width: 40%;
-    padding: 7px 10px 7px 10px;
-    outline: none;
+  width: 40%;
+  padding: 7px 10px 7px 10px;
+  outline: none;
 }
 
 .group-image-container {
-    min-width: 200px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    object-fit: cover;
-    width: 30%;
-    gap: 5px;
+  min-width: 200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  object-fit: cover;
+  width: 30%;
+  gap: 5px;
 }
 
 .group-image-container > img {
-    border-radius: 10px;
-    box-sizing: border-box;
-    height: auto;
-    width: 100%;
-    user-select: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  height: auto;
+  width: 100%;
+  user-select: none;
 }
 
 .error {
-    color: red;
+  color: red;
 }
 
 .btn {
-    padding: 10px;
-    border-radius: 10px 10px 10px 10px;
-    background-color: #1059ef;
-    color: white;
-    cursor: pointer;
-    margin: 10px;
-  }
+  padding: 10px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #1059ef;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+}
 
 .add-member-input {
-    justify-content: center;
-    width: 40%;
-    
+  justify-content: center;
+  width: 40%;
 }
 
 .form-btn {
-    width: 40%;
+  width: 40%;
+}
+
+.btn-grey {
+  background-color: grey;
 }
