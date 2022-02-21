@@ -23,7 +23,7 @@ const ImageSelector = (props) => {
       {images.map((img, i) => {
         const image = (
           <img
-            style={img === currentImage ? { border: "2px solid red" } : {}}
+            style={img === currentImage ? { border: "2px solid #42A7E1" } : {}}
             src={img}
             alt={i}
             key={i}
