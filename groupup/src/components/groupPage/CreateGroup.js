@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import "./createGroup.css"
 import ImageSelector from "./ImageSelector"
 
@@ -18,10 +19,7 @@ import axios from "../../axios"
  *      Bilde for ønsket aktivitet, kanskje bare hente første treff på google bilder med søkeord fra interests?
  */
 
-const CreateGroup = () => {
-  // user will be a prop
-  const user = { email: "1@2.com" }
-
+const CreateGroup = ({ user }) => {
   const interests = [
     "Quiz",
     "Brettspill",
@@ -54,6 +52,8 @@ const CreateGroup = () => {
   const [image, setImage] = useState("")
   const [selectedInterests, setSelectedInterests] = useState([])
 
+  const navigate = useNavigate()
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (validateForm()) createGroup()
@@ -73,6 +73,8 @@ const CreateGroup = () => {
       })
       .then((response) => {
         console.log(response)
+        const id = response.data._id
+        navigate(`/group/${id}`)
       })
       .catch((err) => {
         console.error(err)
@@ -147,7 +149,6 @@ const CreateGroup = () => {
               )
             })}
           </div>
-          Velg et gruppebilde
           <select
             className="group-input select-fylke"
             onChange={(e) => setLocation(e.target.value)}
@@ -165,6 +166,7 @@ const CreateGroup = () => {
               )
             })}
           </select>
+          Velg et gruppebilde
           <ImageSelector
             callback={(img) => {
               setImage(img)
