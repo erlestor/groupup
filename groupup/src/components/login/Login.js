@@ -54,6 +54,7 @@ const Login = ({ setUser }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="email"
+          id="login-email"
         />
         <input
           required
@@ -61,12 +62,14 @@ const Login = ({ setUser }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="password"
+          id="login-password"
         />
         <input
           type="submit"
           className="btn"
           value="Log in"
           onClick={(e) => handleLogInSubmit(e)}
+          id="login-submit"
         />
         <p className="error">{error}</p>
       </form>
