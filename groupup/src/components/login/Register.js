@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react"
 import { emailRegex, passwordRegex, nameRegex } from "./RegisterRegex"
 import axios from "../../axios"
+import { useNavigate } from "react-router-dom"
 
-const Register = () => {
+const Register = ({ setUser }) => {
+  const navigate = useNavigate()
+
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -80,6 +83,8 @@ const Register = () => {
           console.log(response)
           clearInputs()
           setError("")
+          setUser(response.data)
+          navigate("/")
         }
       })
       .catch(function (error) {

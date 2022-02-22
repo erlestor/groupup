@@ -1,26 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
-const InterestCheckBox = props => {
-    const [checked, setChecked] = useState(false);
+const InterestCheckBox = (props) => {
+  const [checked, setChecked] = useState(false)
 
-    let title = props.title;
-    let callback = props.callback;
+  let title = props.title
+  let callback = props.callback
 
-    let backgroundColor = checked ? "green" :  "red";
+  let backgroundColor = checked ? "#42A7E1" : "lightblue"
 
-    return <div 
-        style=
-            {{"background": backgroundColor,
-             "margin": "2px",
-             "padding": "1px",
-             "borderRadius": "4px"}} 
-        onClick={()=>{
+  return (
+    <div
+      style={{
+        background: backgroundColor,
+        margin: "2px",
+        padding: "3px",
+        borderRadius: "4px",
+        userSelect: "none",
+        color: "black",
+      }}
+      onClick={() => {
         let bool = !checked
-        setChecked(bool);
-        callback(bool);
-        }}>
-        {title}
+        setChecked(bool)
+        callback(bool)
+      }}
+    >
+      {title}
     </div>
+  )
 }
 
-export default InterestCheckBox;
+export default InterestCheckBox

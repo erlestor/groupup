@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import axios from "../../axios"
+import { useNavigate } from "react-router-dom"
 
-const Login = () => {
+const Login = ({ setUser }) => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -27,10 +29,10 @@ const Login = () => {
       .then((response) => {
         console.log(response.status)
         if (response.status === 200) {
-          //nice
-          console.log(response)
           setError("")
           clearInputs("")
+          setUser(response.data)
+          navigate("/")
         }
       })
       .catch((err) => {
