@@ -150,4 +150,16 @@ app.put("/addUserToGroup", (req, res) => {
   })
 })
 
+//DELETE bruker på e-mail
+app.delete("/deleteUser", (req, res) => {
+  Users.findOneAndDelete({email: req.body.email}, (err, data) => {
+    if (data) {
+      if (err) res.status(500).send(err)
+      else res.status(200).send("User was deleted.")
+    } else {
+      res.status(404).send("User does not exist and therefore wasnt deleted")
+    }
+  })
+})
+
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
