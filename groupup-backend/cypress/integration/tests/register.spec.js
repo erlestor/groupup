@@ -1,10 +1,3 @@
-/**
- * POST https://localhost:8001/register
- * 
- * req.body = dbUser
- *
- **/
-
 const testUser = {
   "name": "test testesen",
   "email": "test@test.no",
@@ -27,7 +20,6 @@ describe('Register POST method test', () => {
   })
 
   it('Checking that test user already exists', () => {
-    cy.wait(1000)
     cy.request({
       method: 'POST',
       url: 'http://localhost:8001/register',
@@ -56,7 +48,6 @@ describe('Register POST method test', () => {
   })
 
   it('Testing DELETE non-existing user', () => {
-    cy.wait(1000)
     cy.request({
       method: 'DELETE',
       url: 'http://localhost:8001/deleteUser',
@@ -69,5 +60,4 @@ describe('Register POST method test', () => {
       cy.expect(res.status).to.eq(404)
     })
   })
-
 });
