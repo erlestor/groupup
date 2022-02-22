@@ -22,15 +22,25 @@ footer {
 
 .header {
   margin: 0px 0 30px 0;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 40px 20px 40px;
   border-bottom: 1px solid black;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
 .header-text {
   margin-left: 10px;
   user-select: none;
+}
+
+.header-login-container {
+  display: flex;
+  align-items: center;
+}
+
+.router-link {
+  text-decoration: none;
+  color: black;
+  display: flex;
 }

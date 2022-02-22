@@ -3,11 +3,11 @@ import Login from "./Login"
 import Register from "./Register"
 import "./login.css"
 
-const LoginPage = () => {
+const LoginPage = ({ setUser }) => {
   return (
     <div className="login-page">
-      <Register />
-      <Login />
+      <Register setUser={setUser} />
+      <Login setUser={setUser} />
     </div>
   )
 }

@@ -1,11 +1,29 @@
 import React from "react"
 import { HiUserGroup } from "react-icons/hi"
+import { useNavigate, Link } from "react-router-dom"
 
-const Header = () => {
+const Header = ({ user, setUser }) => {
+  const navigate = useNavigate()
+
+  const handleButton = () => {
+    if (user) {
+      setUser(null)
+      navigate("/login")
+    } else navigate("/login")
+  }
+
   return (
     <div className="header">
-      <HiUserGroup size={40} />
-      <h1 className="header-text">GroupUp</h1>
+      <Link to="/" className="router-link">
+        <HiUserGroup size={40} />
+        <h1 className="header-text">GroupUp</h1>
+      </Link>
+      <div className="header-login-container">
+        {user && <p>{user.email}</p>}
+        <button className="btn" onClick={handleButton}>
+          {user ? "Sign out" : "Sign in"}
+        </button>
+      </div>
     </div>
   )
 }

@@ -126,7 +126,7 @@ app.post("/createGroup", (req, res) => {
         }
       })
     } else {
-      res.status(500).send("admin does not exist")
+      res.status(404).send("admin does not exist")
     }
   })
 })
@@ -145,7 +145,7 @@ app.put("/addUserToGroup", (req, res) => {
         }
       )
     } else {
-      res.status(500).send("user does not exist")
+      res.status(404).send("user does not exist")
     }
   })
 })
