@@ -20,7 +20,7 @@ const Header = ({ user, setUser }) => {
       </Link>
       <div className="header-login-container">
         {user && <p id="user-email">{user.email}</p>}
-        <button className="btn" onClick={handleButton}>
+        <button className="btn" onClick={handleButton} id="sign-in-out-btn">
           {user ? "Sign out" : "Sign in"}
         </button>
       </div>
