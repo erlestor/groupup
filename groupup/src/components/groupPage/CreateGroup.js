@@ -7,6 +7,9 @@ import InterestCheckBox from "./InterestCheckBox"
 
 import axios from "../../axios"
 
+import {allInterests as interests, fylker} from "./groupAttributes"
+
+
 /**
  * Gruppenavn
  * Interesser - tur, spill, sport, matlaging, quiz, ..
@@ -20,31 +23,6 @@ import axios from "../../axios"
  */
 
 const CreateGroup = ({ user }) => {
-  const interests = [
-    "Quiz",
-    "Brettspill",
-    "Trav",
-    "Tur",
-    "Matlaging",
-    "Sport",
-    "Dataspill",
-    "Klatring",
-    "Frisbeegolf",
-  ]
-  const fylker = [
-    "Oslo",
-    "Rogaland",
-    "Møre og Romsdal",
-    "Nordland",
-    "Viken",
-    "Innlandet",
-    "Vestfold og Telemark",
-    "Agder",
-    "Vestland",
-    "Trøndelag",
-    "Troms og Finnmark",
-  ]
-
   const [groupName, setGroupName] = useState("")
   const [groupDescription, setGroupDescription] = useState("")
   const [error, setError] = useState("")
