@@ -14,7 +14,7 @@ const GroupList = ({groups}) => {
       members={group.members}
       interests={group.interests}
       location={group.location}
-      meetingDate={group.meetingDate}
+      meetingDate={group.date}
       image={group.image}
       key={groupIdx}
     />
