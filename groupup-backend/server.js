@@ -161,7 +161,7 @@ app.delete("/deleteUser", (req, res) => {
   })
 })
 
-//DELETE group på adminEmail
+//DELETE group på group id
 app.delete("/deleteGroup", (req, res) => {
   Groups.findByIdAndDelete(req.body._id, (err, data) => {
     if (data) {
