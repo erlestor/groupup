@@ -2,6 +2,10 @@ import GroupList from "./GroupList"
 import React, { useState, useEffect } from "react"
 import axios from "../../axios"
 import InterestCheckBox from "./InterestCheckBox"
+import "./filterGroups.css"
+import {BsArrowsAngleExpand, BsArrowsAngleContract} from "react-icons/bs"
+
+import {allInterests, fylker} from "./groupAttributes"
 
 //interesser, lokasjon, alder, gruppestørrelse og dato før ønsket møte
 const FilterGroups = () => {
@@ -14,36 +18,11 @@ const FilterGroups = () => {
     const[groupCountMax, setGroupCountMax] = useState(1000000000)
     const[meetingDate, setMeetingDate] = useState("")
     const[dateInputType, setDateInputType] = useState("text")
+    const [groups, setGroups] = useState([])
+    const [filteredGroups, setFilteredGroups] = useState([])
 
-    const allInterests = [
-      "Quiz",
-      "Brettspill",
-      "Trav",
-      "Tur",
-      "Matlaging",
-      "Sport",
-      "Dataspill",
-      "Klatring",
-      "Frisbeegolf",
-    ]
-    
-    const fylker = [
-      "Oslo",
-      "Rogaland",
-      "Møre og Romsdal",
-      "Nordland",
-      "Viken",
-      "Innlandet",
-      "Vestfold og Telemark",
-      "Agder",
-      "Vestland",
-      "Trøndelag",
-      "Troms og Finnmark",
-    ]
+    const [showFilters, setShowFilters] = useState(false)
 
-  // const groups = [{name: "Venner på gløs", description: "Hei vi er venner på gløs", members: ["haavabru@stud.ntnu.no"], interests:["Ski", "Fotball"], location: "Trondheim", meetingDate: "23.04.22"},{name: "Gode venner på gløs", description: "Hei vi er gode venner på gløs", members: ["haavabru@stud.ntnu.no", "erlendstorsve@gmail.com"], interests:["Ski", "Fotball"], location: "Trondheim", meetingDate: "23.04.22"}]
-  const [groups, setGroups] = useState([])
-  
   //Get group from backend
   const getGroups = async () => {
     await axios
@@ -51,53 +30,69 @@ const FilterGroups = () => {
       .then((response) => {
         const groups = response.data
         setGroups(groups)
+        setFilteredGroups(groups)
       })
       .catch((err) => {
         console.error(err)
       })
   }
 
+  // on page load -> get groups from server
   useEffect(() => {
     getGroups()
   }, [])
 
+  // when filters are changed, filter groups again
+    useEffect(() => {
+    let newFilteredGroups = groups
+
+    newFilteredGroups = ((location !== "") ? newFilteredGroups.filter(g => (g.location === location)) : newFilteredGroups)
+    newFilteredGroups = ((meetingDate !== "") ? newFilteredGroups.filter(g => (g.date === meetingDate)) : newFilteredGroups)
+    newFilteredGroups = (newFilteredGroups.filter(g => (g.members.length >= groupCountMin)))
+    newFilteredGroups = ((groupCountMax !== "") ? newFilteredGroups.filter(g => (g.members.length <= groupCountMax)) : newFilteredGroups)
+
+    setFilteredGroups(newFilteredGroups)
+  }, [location, ageMin, ageMax, groupCountMin, groupCountMax, meetingDate])
+
+  // when interests change -> filter based on new interests
   useEffect(() => {
-    filteredGroups = ((selectedInterests.length !== 0) ? filteredGroups.filter(g => (selectedInterests.filter(x => g.interests.includes(x)).length > 0)) : filteredGroups)
+    console.log(selectedInterests)
+    filterInterests()
   }, [selectedInterests])
 
+  const filterInterests = () => {
+    let newFilteredGroups = groups
+    newFilteredGroups = ((selectedInterests.length !== 0) ? newFilteredGroups.filter(g => (selectedInterests.filter(x => g.interests.includes(x)).length > 0)) : newFilteredGroups)
+    setFilteredGroups(newFilteredGroups)
+  }
 
-  let filteredGroups = groups
-  filteredGroups = ((location !== "") ? filteredGroups.filter(g => (g.location === location)) : filteredGroups)
-  filteredGroups = ((meetingDate !== "") ? filteredGroups.filter(g => (g.date === meetingDate)) : filteredGroups)
-  filteredGroups = (filteredGroups.filter(g => (g.members.length >= groupCountMin)))
-  filteredGroups = ((groupCountMax !== "") ? filteredGroups.filter(g => (g.members.length <= groupCountMax)):filteredGroups)
   
-//interesser, lokasjon, alder, gruppestørrelse og dato før ønsket møte 
+    //interesser, lokasjon, alder, gruppestørrelse og dato før ønsket møte 
     return(
         <div>
-
-          <form>
+          <div className="filters">
+            <div className="filter-headers">
             <h2>Apply to filter groups</h2>
-
+              {showFilters ? (<BsArrowsAngleContract onClick={() => setShowFilters(false)} className="icon" size={20} />) : (<BsArrowsAngleExpand onClick={() => setShowFilters(true)} className="icon" size={20}  />)}
+            </div>
+            {showFilters && (  <form className="filter-forms-container">
             <div className="interest-container">
             {allInterests.map((interest, i) => {
               return (
                 <InterestCheckBox
                   key={i}
                   title={interest}
-                  
                   callback={(checked) => {
                     if (checked) {
-                      const newInterests = selectedInterests
-                      newInterests.push(interest)
-                      setSelectedInterests(newInterests)
+                      setSelectedInterests([...selectedInterests, interest])
+
                     } else {
                       const newInterests = selectedInterests.filter(
                         (i) => i !== interest
                       )
                       setSelectedInterests(newInterests)
+              
                     }
-                   console.log(selectedInterests)
                   }}
                 />
               )
@@ -121,6 +116,8 @@ const FilterGroups = () => {
               )
             })}
             </select>
+            <div className="filter-input-container">
+
 
             <input
             className="ageMin-input"
@@ -157,9 +154,11 @@ const FilterGroups = () => {
              value={meetingDate}
              onChange={(e) => setMeetingDate(e.target.value)}
             />      
+            </div>
 
 
-          </form> 
+          </form> )}
+        </div>
           <GroupList groups={filteredGroups} />
         </div>
     )
