@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./createGroup.css"
 import ImageSelector from "./ImageSelector"
@@ -100,7 +100,7 @@ const CreateGroup = ({ user }) => {
       setError("Velg en lokasjon.")
       return false
     }
-    if (image === "") {
+    if (image === null) {
       setError("Velg et bilde.")
       return false
     }
@@ -120,14 +120,12 @@ const CreateGroup = ({ user }) => {
             className="group-input"
             placeholder="Gruppenavn"
             onChange={(e) => setGroupName(e.target.value)}
-            id="group-name"
           />
           <textarea
             required
             className="group-input"
             placeholder="Beskrivelse av din gruppe"
             onChange={(e) => setGroupDescription(e.target.value)}
-            id="group-description"
           />
           <div className="interest-container">
             {interests.map((interest, i) => {
@@ -174,11 +172,7 @@ const CreateGroup = ({ user }) => {
               setImage(img)
             }}
           />
-          <button
-            className="btn"
-            onClick={(e) => handleSubmit(e)}
-            id="create-group-btn"
-          >
+          <button className="btn" onClick={(e) => handleSubmit(e)}>
             Lag gruppe
           </button>
         </form>
