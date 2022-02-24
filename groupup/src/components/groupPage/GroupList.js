@@ -44,7 +44,7 @@ const GroupList = () => {
   ))
   return (
     <div className="group-list">
-      <button onClick={handleClick} className="btn">
+      <button onClick={handleClick} className="btn" id="create-group-btn">
         Create new group
       </button>
       <h2>All groups</h2>
