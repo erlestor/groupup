@@ -173,4 +173,58 @@ app.delete("/deleteGroup", (req, res) => {
   })
 })
 
+/*body vil se slik ut
+
+body = {
+  name: "Updated name",
+  interests: ["Klatring"],
+  description: "Desc",
+  date: "YYYY-MM-DD",
+  location: "Viken",
+  image: "imageUrl"
+}
+
+*/
+app.put("/editGroup", (req, res) => {
+  Groups.findByIdAndUpdate(req.body._id, req.body, (err, data) => {
+    if (err) res.status(500).send("Internal server error.")
+
+    if (data) {
+      res.status(200).send("Group was updated.")
+    } else {
+      res.status(404).send("No group with that id.")
+    }
+  })
+})
+
+
+// body vil se slik ut {groupId: insertGroupToRemoveMemberFromIdHere, adminEmail: "groupAdmin@email.no", userEmail: "userToBeRemovedFromGroup@mail.no"}
+app.put("/removeMember", (req, res) => {
+  if (req.body.adminEmail === req.body.userEmail) {
+    res.status(400).send("Cannot remove admin from group.")
+    return
+  }
+  Users.findOne({ email: req.body.userEmail }, (err, user) => {
+    if (err) res.status(500).send("Internal server error.")
+    // user er brukeren som skal fjernes fra gruppen
+    if (user) {
+      Groups.findByIdAndUpdate(
+        req.body.groupId,
+        { $pull: { members: user.email } },
+        (err, group) => {
+          if (err) {
+            res.status(500).send(err)
+          } else {
+            res.status(200).send(group)
+          }
+      })
+    } else {
+      res.status(404).send("user does not exist")
+    }
+  })
+  
+})
+
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
+
+
