@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { emailRegex, passwordRegex, nameRegex } from "./RegisterRegex"
 import axios from "../../axios"
 import { useNavigate } from "react-router-dom"
@@ -30,8 +30,6 @@ const Register = ({ setUser }) => {
   }
 
   const handleRegisterClick = (e) => {
-    const name = firstName + " " + lastName
-
     e.preventDefault()
     if (!validateRegex(nameRegex, firstName, "firstname is invalid")) return
     else if (!validateRegex(nameRegex, lastName, "lastname is invalid")) return
@@ -149,6 +147,7 @@ const Register = ({ setUser }) => {
           className="btn"
           value="Register"
           onClick={(e) => handleRegisterClick(e)}
+          id="register-btn"
         />
         <p className="error">{error}</p>
       </form>
