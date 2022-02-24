@@ -3,24 +3,17 @@ import { mount } from "@cypress/react"
 // import App from "../App"
 import Register from "../components/login/Register"
 import { BrowserRouter as Router } from "react-router-dom"
-import App from "../App"
-
-function enterFields() {
-  cy.get("#firstName").type("test")
-  cy.get("#lastName").type("test")
-  cy.get("#email").type("fotball@123.com")
-  cy.get("#password").type("football123")
-  cy.get("#confirmPassword").type("wrongpassword")
-  cy.get("#birthday").type("1998-04-14")
-}
 
 describe("Register button", () => {
-  it("all inputs must be filled out before submitting", () => {
+  it("register button clicked on gives successfull home site", () => {
     mount(
       <Router>
         <Register />
       </Router>
     )
+
+    // cy.contains("Login")
+
     cy.get("input[type='submit']").click()
     cy.get(".error").contains("firstname is invalid")
 
@@ -32,7 +25,7 @@ describe("Register button", () => {
     cy.get("input[type='submit']").click()
     cy.get(".error").contains("email is invalid")
 
-    cy.get("#email").type("unique@email.org")
+    cy.get("#email").type("1@2.com")
     cy.get("input[type='submit']").click()
     cy.get(".error").contains("password is invalid")
 
@@ -43,38 +36,8 @@ describe("Register button", () => {
     cy.get("#confirmPassword").type("wrongpassword")
     cy.get("input[type='submit']").click()
 
-    cy.get("#birthday").type("1998-04-14")
-    cy.get("input[type='submit']").click()
-  })
-
-  it("non-matching password throughs error", () => {
-    mount(
-      <Router>
-        <Register />
-      </Router>
-    )
-    enterFields()
-
-    cy.get("#password").type("football123")
-    cy.get("#confirmPassword").type("dancing123")
-    cy.get("input[type='submit']").click()
-    cy.get(".error").contains("passwords must match")
-  })
-
-  it("matching passwords makes log in", () => {
-    mount(<App />)
-    enterFields()
-
-    cy.get("#password").clear().type("football123")
-    cy.get("#confirmPassword").clear().type("football123")
-    cy.get("#register-btn").click()
-
-    cy.location("pathname").should("eq", "/")
-
-    cy.request({
-      method: "delete",
-      url: "http://localhost:8001/deleteUser",
-      body: { email: "fotball@123.com" },
-    })
+    // cy.get("input[type='email']").type("1@2.com")
+    // cy.get("input[type='password']").type("ikkematchendepassord")
+    // cy.get("input[type='submit']").click()
   })
 })

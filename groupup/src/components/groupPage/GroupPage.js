@@ -93,14 +93,13 @@ const GroupPage = ({ user }) => {
 
   useEffect(() => {
     getGroup()
-  })
+  }, [])
 
   useEffect(() => {
     calcAgeSpan()
-
-    // ikke fjern linjen under
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [members])
+
+  const handleEditButton = () => {}
 
   //HTML
   return (

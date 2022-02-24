@@ -23,7 +23,6 @@ const InterestCheckBox = (props) => {
         setChecked(bool)
         callback(bool)
       }}
-      id={`interest-${title}`}
     >
       {title}
     </div>
