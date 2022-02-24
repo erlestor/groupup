@@ -95,10 +95,9 @@ app.get("/groups", (req, res) => {
 })
 
 app.get("/getGroup", (req, res) => {
-  console.log("fuck d her da")
-  const id = req.body.id
+  const id = req.body._id
 
-  Groups.findOne({ _id: id }, function (err, group) {
+  Groups.findById(id, function (err, group) {
     if (err) {
       res.status(500).send(err)
     }
@@ -150,7 +149,7 @@ app.put("/addUserToGroup", (req, res) => {
   })
 })
 
-//DELETE bruker på e-mail
+//DELETE bruker på email
 app.delete("/deleteUser", (req, res) => {
   Users.findOneAndDelete({email: req.body.email}, (err, data) => {
     if (data) {
@@ -158,6 +157,18 @@ app.delete("/deleteUser", (req, res) => {
       else res.status(200).send("User was deleted.")
     } else {
       res.status(404).send("User does not exist and therefore wasnt deleted")
+    }
+  })
+})
+
+//DELETE group på adminEmail
+app.delete("/deleteGroup", (req, res) => {
+  Groups.findByIdAndDelete(req.body._id, (err, data) => {
+    if (data) {
+      if (err) res.status(500).send(err)
+      else res.status(200).send("Group was deleted.")
+    } else {
+      res.status(404).send("Group does not exist and therefore wasnt deleted")
     }
   })
 })
