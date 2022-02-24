@@ -2,8 +2,6 @@ import GroupList from "./GroupList"
 import React, { useState, useEffect } from "react"
 import axios from "../../axios"
 import InterestCheckBox from "./InterestCheckBox"
-import PropTypes from "prop-types"
-
 
 //interesser, lokasjon, alder, gruppestørrelse og dato før ønsket møte
 const FilterGroups = () => {
@@ -15,7 +13,7 @@ const FilterGroups = () => {
     const[groupCountMin, setGroupCountMin] = useState(1)
     const[groupCountMax, setGroupCountMax] = useState(1000000000)
     const[meetingDate, setMeetingDate] = useState("")
-    const [dateInputType, setDateInputType] = useState("text")
+    const[dateInputType, setDateInputType] = useState("text")
 
     const allInterests = [
       "Quiz",
@@ -43,9 +41,7 @@ const FilterGroups = () => {
       "Troms og Finnmark",
     ]
 
-
-
-    // const groups = [{name: "Venner på gløs", description: "Hei vi er venner på gløs", members: ["haavabru@stud.ntnu.no"], interests:["Ski", "Fotball"], location: "Trondheim", meetingDate: "23.04.22"},{name: "Gode venner på gløs", description: "Hei vi er gode venner på gløs", members: ["haavabru@stud.ntnu.no", "erlendstorsve@gmail.com"], interests:["Ski", "Fotball"], location: "Trondheim", meetingDate: "23.04.22"}]
+  // const groups = [{name: "Venner på gløs", description: "Hei vi er venner på gløs", members: ["haavabru@stud.ntnu.no"], interests:["Ski", "Fotball"], location: "Trondheim", meetingDate: "23.04.22"},{name: "Gode venner på gløs", description: "Hei vi er gode venner på gløs", members: ["haavabru@stud.ntnu.no", "erlendstorsve@gmail.com"], interests:["Ski", "Fotball"], location: "Trondheim", meetingDate: "23.04.22"}]
   const [groups, setGroups] = useState([])
   
   //Get group from backend
@@ -65,9 +61,17 @@ const FilterGroups = () => {
     getGroups()
   }, [])
 
-  const filteredGroups = groups.filter(g => (selectedInterests.length === 0 || g.interests === selectedInterests) && location === "" || g.location === location && g.ageMin === ageMin &&                                                                                                                                                                                                                                  
-    g.ageMax === ageMax && g.members.size() >= groupCountMin && g.members.size() <= groupCountMax && g.meetingDate ===  meetingDate)
-    
+  useEffect(() => {
+    filteredGroups = ((selectedInterests.length !== 0) ? filteredGroups.filter(g => (selectedInterests.filter(x => g.interests.includes(x)).length > 0)) : filteredGroups)
+  }, [selectedInterests])
+
+
+  let filteredGroups = groups
+  filteredGroups = ((location !== "") ? filteredGroups.filter(g => (g.location === location)) : filteredGroups)
+  filteredGroups = ((meetingDate !== "") ? filteredGroups.filter(g => (g.date === meetingDate)) : filteredGroups)
+  filteredGroups = (filteredGroups.filter(g => (g.members.length >= groupCountMin)))
+  filteredGroups = ((groupCountMax !== "") ? filteredGroups.filter(g => (g.members.length <= groupCountMax)):filteredGroups)
+  
 //interesser, lokasjon, alder, gruppestørrelse og dato før ønsket møte 
     return(
         <div>
@@ -81,6 +85,7 @@ const FilterGroups = () => {
                 <InterestCheckBox
                   key={i}
                   title={interest}
+                  
                   callback={(checked) => {
                     if (checked) {
                       const newInterests = selectedInterests
@@ -92,6 +97,7 @@ const FilterGroups = () => {
                       )
                       setSelectedInterests(newInterests)
                     }
+                   console.log(selectedInterests)
                   }}
                 />
               )
@@ -118,24 +124,28 @@ const FilterGroups = () => {
 
             <input
             className="ageMin-input"
+            type="number"
             placeholder="Minimum age"
             onChange={(e) => setAgeMin(e.target.value)}
             />
 
             <input
             className="ageMax-input"
+            type="number"
             placeholder="Maximum age"
             onChange={(e) => setAgeMax(e.target.value)}
             />     
 
             <input
             className="groupCountMin-input"
+            type="number"
             placeholder="Minimum group size"
             onChange={(e) => setGroupCountMin(e.target.value)}
             />
 
             <input
             className="groupCountMax-input"
+            type="number"
             placeholder="Maximum group size"
             onChange={(e) => setGroupCountMax(e.target.value)}
             />
@@ -149,9 +159,6 @@ const FilterGroups = () => {
             />      
 
 
-
-
-            
           </form> 
           <GroupList groups={filteredGroups} />
         </div>
