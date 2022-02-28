@@ -1,0 +1,38 @@
+.filter-forms-container {
+  margin: 0 50px 50px 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-forms-container .interest-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.filter-input-container {
+  display: flex;
+}
+
+.filter-input-container input {
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.filter-headers {
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+  margin: 0 50px 0 50px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

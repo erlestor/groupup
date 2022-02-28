@@ -11,10 +11,9 @@ const Group = ({
   location,
   image,
   meetingDate,
-  id,
+  id
 }) => {
   const navigate = useNavigate()
-
   const interestsString = interests.join(", ")
   const thisYear = new Date().getFullYear()
   const [span, setSpan] = useState()

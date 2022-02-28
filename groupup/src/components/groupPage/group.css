@@ -92,3 +92,7 @@ button {
   user-select: none;
   text-align: left;
 }
+
+.icon {
+  cursor: pointer;
+}
