@@ -50,23 +50,16 @@ const FilterGroups = () => {
     newFilteredGroups = ((meetingDate !== "") ? newFilteredGroups.filter(g => (g.date === meetingDate)) : newFilteredGroups)
     newFilteredGroups = (newFilteredGroups.filter(g => (g.members.length >= groupCountMin)))
     newFilteredGroups = ((groupCountMax !== "") ? newFilteredGroups.filter(g => (g.members.length <= groupCountMax)) : newFilteredGroups)
+    newFilteredGroups = ((ageMin !== "") ? newFilteredGroups.filter(g => (parseInt(g.ageSpan[0])>=ageMin)): newFilteredGroups)
+    newFilteredGroups = ((ageMax !== "") ? newFilteredGroups.filter(g => (parseInt(g.ageSpan[1])<=ageMax)): newFilteredGroups)
+    filterInterests(newFilteredGroups)
+  }, [location, ageMin, ageMax, groupCountMin, groupCountMax, meetingDate, selectedInterests])
 
-    setFilteredGroups(newFilteredGroups)
-  }, [location, ageMin, ageMax, groupCountMin, groupCountMax, meetingDate])
-
-  // when interests change -> filter based on new interests
-  useEffect(() => {
-    console.log(selectedInterests)
-    filterInterests()
-  }, [selectedInterests])
-
-  const filterInterests = () => {
-    let newFilteredGroups = groups
+  const filterInterests = (newFilteredGroups) => {
     newFilteredGroups = ((selectedInterests.length !== 0) ? newFilteredGroups.filter(g => (selectedInterests.filter(x => g.interests.includes(x)).length > 0)) : newFilteredGroups)
     setFilteredGroups(newFilteredGroups)
   }
 
-  
     //interesser, lokasjon, alder, gruppestørrelse og dato før ønsket møte 
     return(
         <div>
