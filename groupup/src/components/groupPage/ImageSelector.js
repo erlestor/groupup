@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import "./createGroup.css"
 
 import img1 from "../../Images/1.png"
@@ -11,12 +11,9 @@ import img7 from "../../Images/7.png"
 import img8 from "../../Images/8.png"
 import img9 from "../../Images/9.png"
 
-const ImageSelector = (props) => {
+const ImageSelector = ({ callback, currentImage, setCurrentImage }) => {
   const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9]
   const imageElements = []
-
-  const [currentImage, setCurrentImage] = useState(null)
-  let callback = props.callback
 
   return (
     <div className="group-image-container">
