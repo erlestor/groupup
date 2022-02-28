@@ -1,0 +1,9 @@
+.edit-group-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-form {
+  margin-bottom: 20px;
+}
