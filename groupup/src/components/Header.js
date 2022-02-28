@@ -19,8 +19,8 @@ const Header = ({ user, setUser }) => {
         <h1 className="header-text">GroupUp</h1>
       </Link>
       <div className="header-login-container">
-        {user && <p>{user.email}</p>}
-        <button className="btn" onClick={handleButton}>
+        {user && <p id="user-email">{user.email}</p>}
+        <button className="btn" onClick={handleButton} id="sign-in-out-btn">
           {user ? "Sign out" : "Sign in"}
         </button>
       </div>
