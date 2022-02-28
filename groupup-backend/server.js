@@ -176,18 +176,36 @@ app.delete("/deleteGroup", (req, res) => {
 /*body vil se slik ut
 
 body = {
-  name: "Updated name",
-  interests: ["Klatring"],
-  description: "Desc",
-  date: "YYYY-MM-DD",
-  location: "Viken",
-  image: "imageUrl"
+  _id: "6214d63e73c69506cef4c790",
+  updatedInfo: {
+    name: "Updated name",
+    interests: ["Klatring"],
+    description: "Desc",
+    date: "YYYY-MM-DD",
+    location: "Viken",
+    image: "imageUrl"
+  }
 }
 
 */
 app.put("/editGroup", (req, res) => {
+
+  //Dette gjør at adminEmail ikke overskrives dersom ny adminEmail blir passa inn i body
+  //Kan være vi vil gjøre at admin for gruppe skal endres, da må vi gjøre om her
+  if (req.body.adminEmail) {
+    delete req.body.adminEmail
+  }
+  //Håndtering av sletting/invitering av gruppemedlemmer skjer ikke i edit group details
+  //Hvis det skal det må dette endres
+  if (req.body.members) {
+    delete req.body.members
+  }
+
   Groups.findByIdAndUpdate(req.body._id, req.body, (err, data) => {
-    if (err) res.status(500).send("Internal server error.")
+    if (err) {
+      res.status(500).send("Internal server error.")
+      return
+    }
 
     if (data) {
       res.status(200).send("Group was updated.")
