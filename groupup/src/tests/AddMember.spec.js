@@ -18,7 +18,7 @@ const goToEditPage = () => {
 }
 
 const enterMember = (text) => {
-  cy.get(".group-input").type(text)
+  cy.get(".add-member-input").type(text)
 }
 
 const submit = () => {
@@ -55,11 +55,12 @@ describe("AddMember page", () => {
   it("adding a new member works", () => {
     enterMember("1@2.com")
     submit()
+
     // include when endpoint exists
-    // cy.request({
-    //   method: "DELETE",
-    //   url: "http://localhost:8001/deleteUserFromGroup",
-    //   body: { _id: "6214feb7c18c3e4cab80cfc0", userEmail: "1@2.com" },
-    // })
+    cy.request("PUT", "http://localhost:8001/removeMember", {
+      groupId: "6214feb7c18c3e4cab80cfc0",
+      userEmail: "1@2.com",
+      adminEmail: "test@test.com",
+    })
   })
 })
