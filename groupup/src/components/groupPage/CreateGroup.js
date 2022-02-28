@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./createGroup.css"
 import ImageSelector from "./ImageSelector"
@@ -49,7 +49,7 @@ const CreateGroup = ({ user }) => {
   const [groupDescription, setGroupDescription] = useState("")
   const [error, setError] = useState("")
   const [location, setLocation] = useState("")
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState(null)
   const [selectedInterests, setSelectedInterests] = useState([])
 
   const navigate = useNavigate()
@@ -120,12 +120,14 @@ const CreateGroup = ({ user }) => {
             className="group-input"
             placeholder="Gruppenavn"
             onChange={(e) => setGroupName(e.target.value)}
+            id="group-name"
           />
           <textarea
             required
             className="group-input"
             placeholder="Beskrivelse av din gruppe"
             onChange={(e) => setGroupDescription(e.target.value)}
+            id="group-description"
           />
           <div className="interest-container">
             {interests.map((interest, i) => {
@@ -135,16 +137,14 @@ const CreateGroup = ({ user }) => {
                   title={interest}
                   callback={(checked) => {
                     if (checked) {
-                      const newInterests = selectedInterests
-                      newInterests.push(interest)
-                      setSelectedInterests(newInterests)
+                      setSelectedInterests([...selectedInterests, interest])
                     } else {
-                      const newInterests = selectedInterests.filter(
-                        (i) => i !== interest
+                      setSelectedInterests(
+                        selectedInterests.filter((i) => i !== interest)
                       )
-                      setSelectedInterests(newInterests)
                     }
                   }}
+                  selectedInterests={selectedInterests}
                 />
               )
             })}
@@ -171,8 +171,14 @@ const CreateGroup = ({ user }) => {
             callback={(img) => {
               setImage(img)
             }}
+            currentImage={image}
+            setCurrentImage={setImage}
           />
-          <button className="btn" onClick={(e) => handleSubmit(e)}>
+          <button
+            className="btn"
+            id="create-group-btn"
+            onClick={(e) => handleSubmit(e)}
+          >
             Lag gruppe
           </button>
         </form>
