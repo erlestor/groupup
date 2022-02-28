@@ -71,10 +71,8 @@ describe("Register button", () => {
 
     cy.location("pathname").should("eq", "/")
 
-    cy.request({
-      method: "delete",
-      url: "http://localhost:8001/deleteUser",
-      body: { email: "fotball@123.com" },
+    cy.request("DELETE", "http://localhost:8001/deleteUser", {
+      email: "fotball@123.com",
     })
   })
 })
