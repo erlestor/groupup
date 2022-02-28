@@ -151,7 +151,7 @@ app.put("/addUserToGroup", (req, res) => {
 
 //DELETE bruker på email
 app.delete("/deleteUser", (req, res) => {
-  Users.findOneAndDelete({email: req.body.email}, (err, data) => {
+  Users.findOneAndDelete({ email: req.body.email }, (err, data) => {
     if (data) {
       if (err) res.status(500).send(err)
       else res.status(200).send("User was deleted.")
@@ -169,6 +169,79 @@ app.delete("/deleteGroup", (req, res) => {
       else res.status(200).send("Group was deleted.")
     } else {
       res.status(404).send("Group does not exist and therefore wasnt deleted")
+    }
+  })
+})
+
+/*body vil se slik ut
+
+body = {
+  _id: "6214d63e73c69506cef4c790",
+  updatedInfo: {
+    name: "Updated name",
+    interests: ["Klatring"],
+    description: "Desc",
+    date: "YYYY-MM-DD",
+    location: "Viken",
+    image: "imageUrl"
+  }
+}
+
+*/
+app.put("/editGroup", (req, res) => {
+  //Dette gjør at adminEmail ikke overskrives dersom ny adminEmail blir passa inn i body
+  //Kan være vi vil gjøre at admin for gruppe skal endres, da må vi gjøre om her
+  if (req.body.adminEmail) {
+    delete req.body.adminEmail
+  }
+  //Håndtering av sletting/invitering av gruppemedlemmer skjer ikke i edit group details
+  //Hvis det skal det må dette endres
+  if (req.body.members) {
+    delete req.body.members
+  }
+
+  Groups.findByIdAndUpdate(req.body._id, req.body, (err, data) => {
+    if (err) {
+      res.status(500).send("Internal server error.")
+      return
+    }
+
+    if (data) {
+      res.status(200).send("Group was updated.")
+    } else {
+      res.status(404).send("No group with that id.")
+    }
+  })
+})
+
+// body vil se slik ut
+//{
+//  groupId: insertGroupToRemoveMemberFromIdHere,
+//  adminEmail: "groupAdmin@email.no",
+//  userEmail: "userToBeRemovedFromGroup@mail.no"
+//}
+app.put("/removeMember", (req, res) => {
+  if (req.body.adminEmail === req.body.userEmail) {
+    res.status(400).send("Cannot remove admin from group.")
+    return
+  }
+  Users.findOne({ email: req.body.userEmail }, (err, user) => {
+    if (err) res.status(500).send("Internal server error.")
+    // user er brukeren som skal fjernes fra gruppen
+    if (user) {
+      Groups.findByIdAndUpdate(
+        req.body.groupId,
+        { $pull: { members: user.email } },
+        (err, group) => {
+          if (err) {
+            res.status(500).send(err)
+          } else {
+            res.status(200).send(group)
+          }
+        }
+      )
+    } else {
+      res.status(404).send("user does not exist")
     }
   })
 })
