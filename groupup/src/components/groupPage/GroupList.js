@@ -19,9 +19,17 @@ const GroupList = ({groups}) => {
       key={groupIdx}
     />
   ))
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate("/create-group")
+  }
+
 
   return (
     <div className="group-list">
+      <button onClick={handleClick} className="btn" id="create-group-btn">
+        Create new group
+      </button>
       <h2>All groups</h2>
       {groupMap}
     </div>

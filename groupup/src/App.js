@@ -7,6 +7,7 @@ import GroupList from "./components/groupPage/GroupList"
 import GroupPage from "./components/groupPage/GroupPage"
 import AddMember from "./components/groupPage/AddMember"
 import CreateGroup from "./components/groupPage/CreateGroup"
+import FilterGroups from "./components/groupPage/FilterGroups"
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
@@ -19,7 +20,7 @@ function App() {
         <Header user={user} setUser={setUser} />
         {user ? (
           <Routes>
-            <Route path="/" element={<GroupList />} />
+            <Route path="/" element={<FilterGroups />} />
             <Route path="/login" element={<LoginPage setUser={setUser} />} />
             <Route path="/group/:id" element={<GroupPage user={user} />} />
             <Route path="/group/:id/edit" element={<AddMember user={user} />} />
@@ -28,7 +29,6 @@ function App() {
         ) : (
           <LoginPage setUser={setUser} />
         )}
-
         <Footer />
       </div>
     </Router>
