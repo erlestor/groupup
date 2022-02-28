@@ -216,7 +216,12 @@ app.put("/editGroup", (req, res) => {
 })
 
 
-// body vil se slik ut {groupId: insertGroupToRemoveMemberFromIdHere, adminEmail: "groupAdmin@email.no", userEmail: "userToBeRemovedFromGroup@mail.no"}
+// body vil se slik ut
+//{ 
+//  groupId: insertGroupToRemoveMemberFromIdHere,
+//  adminEmail: "groupAdmin@email.no",
+//  userEmail: "userToBeRemovedFromGroup@mail.no"
+//}
 app.put("/removeMember", (req, res) => {
   if (req.body.adminEmail === req.body.userEmail) {
     res.status(400).send("Cannot remove admin from group.")
