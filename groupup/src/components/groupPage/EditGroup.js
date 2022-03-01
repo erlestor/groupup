@@ -119,6 +119,7 @@ const EditGroup = ({ user }) => {
           <input
             required
             className="group-input"
+            id="group-name"
             placeholder="Gruppenavn"
             value={groupName}
             onChange={(e) => setGroupName(e.target.value)}
@@ -126,6 +127,7 @@ const EditGroup = ({ user }) => {
           <textarea
             required
             className="group-input"
+            id="group-description"
             placeholder="Beskrivelse av din gruppe"
             value={groupDescription}
             onChange={(e) => setGroupDescription(e.target.value)}
@@ -176,7 +178,11 @@ const EditGroup = ({ user }) => {
             currentImage={image}
             setCurrentImage={setImage}
           />
-          <button className="btn" onClick={(e) => handleSubmit(e)}>
+          <button
+            className="btn"
+            id="save-edit-group-btn"
+            onClick={(e) => handleSubmit(e)}
+          >
             Lagre
           </button>
         </form>
