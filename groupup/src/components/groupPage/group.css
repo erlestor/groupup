@@ -11,6 +11,7 @@
   background-color: lightgray;
   box-shadow: gray 1px 1px;
 }
+
 .group-list {
   display: flex;
   flex-direction: column;
@@ -22,6 +23,7 @@
   border-radius: 10px 10px 0 0;
   min-height: 100vh;
 }
+
 .group-container img {
   margin-right: 20px;
   height: 120px;
@@ -29,6 +31,7 @@
   border-radius: 100px;
   float: left;
 }
+
 .group-page img {
   height: 180px;
   width: 320px;
@@ -36,6 +39,7 @@
   margin: 20px;
   border-radius: 20px;
 }
+
 .group-page {
   text-align: center;
   display: flex;
@@ -47,6 +51,7 @@
   min-height: 100vh;
   min-width: 600px;
 }
+
 .group-main-info {
   margin: 5px 200px 20px 200px;
   border-radius: 10px;
@@ -57,11 +62,13 @@
   flex-direction: column;
   user-select: none;
 }
+
 .group-name-title {
   margin: 0px;
   display: inline-block;
   user-select: none;
 }
+
 .match-button {
   align-self: center;
   text-align: center;
@@ -71,6 +78,7 @@
   border-radius: 10px;
   background-color: lightgray;
 }
+
 .edit-button {
   align-self: flex-end;
   text-align: center;
@@ -79,18 +87,30 @@
   border-radius: 10px;
   background-color: lightgray;
 }
+
 button {
   cursor: pointer;
 }
+
 .group-list h2 {
   margin: 0px 0px 20px 0px;
   user-select: none;
 }
+
 .group-desc {
   align-self: center;
   width: 600px;
   user-select: none;
   text-align: left;
+}
+
+
+.interest-box {
+  margin: 2px;
+  padding: 3px;
+  border-radius: 4px;
+  user-select: none;
+  color: black;
 }
 
 .icon {

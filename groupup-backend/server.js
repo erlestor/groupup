@@ -181,7 +181,7 @@ app.put("/addUserToGroup", (req, res) => {
 
 //DELETE bruker på email
 app.delete("/deleteUser", (req, res) => {
-  Users.findOneAndDelete({email: req.body.email}, (err, data) => {
+  Users.findOneAndDelete({ email: req.body.email }, (err, data) => {
     if (data) {
       if (err) res.status(500).send(err)
       else res.status(200).send("User was deleted.")
@@ -219,7 +219,6 @@ body = {
 
 */
 app.put("/editGroup", (req, res) => {
-
   //Dette gjør at adminEmail ikke overskrives dersom ny adminEmail blir passa inn i body
   //Kan være vi vil gjøre at admin for gruppe skal endres, da må vi gjøre om her
   if (req.body.adminEmail) {
@@ -244,7 +243,6 @@ app.put("/editGroup", (req, res) => {
     }
   })
 })
-
 
 // body vil se slik ut
 //{ 
@@ -275,7 +273,6 @@ app.put("/removeMember", (req, res) => {
       res.status(404).send("user does not exist")
     }
   })
-  
 })
 
 const dateToAge = (birthDate) => {

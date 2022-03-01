@@ -27,42 +27,6 @@ const GroupPage = ({ user }) => {
   //Check if member
   const isMember = user && members.includes(user.email)
 
-  //Get group from backend
-  const getGroup = async () => {
-    await axios
-      .get("/groups")
-      .then((response) => {
-        const groups = response.data
-        console.log(groups)
-        const matchingGroups = groups.filter((g) => g._id === id)
-        if (matchingGroups.length > 0) {
-          const {
-            name,
-            description,
-            members,
-            interests,
-            location,
-            date,
-            image,
-            adminEmail,
-          } = matchingGroups[0]
-          setName(name)
-          setDescription(description)
-          setMembers(members)
-          setInterests(interests)
-          setLocation(location)
-          setDate(date)
-          setImage(image)
-          setAdminEmail(adminEmail)
-        } else {
-          console.error("no matching group")
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }
-
   const calcAgeSpan = async () => {
     if (members.length > 0) {
       await axios
@@ -92,8 +56,44 @@ const GroupPage = ({ user }) => {
   }
 
   useEffect(() => {
+    //Get group from backend
+    const getGroup = async () => {
+      await axios
+        .get("/groups")
+        .then((response) => {
+          const groups = response.data
+          console.log(groups)
+          const matchingGroups = groups.filter((g) => g._id === id)
+          if (matchingGroups.length > 0) {
+            const {
+              name,
+              description,
+              members,
+              interests,
+              location,
+              date,
+              image,
+              adminEmail,
+            } = matchingGroups[0]
+            setName(name)
+            setDescription(description)
+            setMembers(members)
+            setInterests(interests)
+            setLocation(location)
+            setDate(date)
+            setImage(image)
+            setAdminEmail(adminEmail)
+          } else {
+            console.error("no matching group")
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }
+
     getGroup()
-  })
+  }, [id])
 
   useEffect(() => {
     calcAgeSpan()

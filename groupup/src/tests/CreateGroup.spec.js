@@ -53,5 +53,14 @@ describe("CreateGroup page", () => {
     cy.get("img[alt='0']").click()
     submit()
     cy.get(".group-name-title").contains("testnavn")
+
+    cy.location().then((location) => {
+      cy.log(location.pathname)
+      const path = location.pathname
+      const id = path.replace("/group/", "")
+      cy.log(id)
+
+      cy.request("DELETE", "http://localhost:8001/deleteGroup", { _id: id })
+    })
   })
 })
