@@ -116,6 +116,8 @@ app.post("/createGroup", (req, res) => {
 
   Users.findOne({ email: req.body.adminEmail }, function (err, user) {
     if (user) {
+      let age = dateToAge(user.birthDate)
+      dbGroup.ageSpan = [age, age]
       // dette betyr at adminEmail er gyldig
       Groups.create(dbGroup, (err, data) => {
         if (err) {
@@ -135,14 +137,42 @@ app.put("/addUserToGroup", (req, res) => {
   Users.findOne({ email: req.body.userEmail }, function (err, user) {
     // user er brukeren som skal leggges til i gruppen
     if (user) {
-      Groups.findOneAndUpdate(
-        { _id: req.body.groupId },
-        { $addToSet: { members: user.email } },
-        (err, data) => {
-          if (err) res.status(500).send(err)
-          else res.status(200).send(data)
+
+      const userAge = dateToAge(user.birthDate)
+      let updatedAgeSpan;
+      
+      Groups.findOne({_id: req.body.groupId}, (err, group) => {
+        if (err) {
+          res.status(500).send(err)
         }
-      )
+        else {
+          updatedAgeSpan = group["ageSpan"]
+
+          if (parseInt(updatedAgeSpan[0]) > userAge) {
+            updatedAgeSpan[0] = userAge
+          }
+    
+          if (parseInt(updatedAgeSpan[1]) < userAge) {
+            updatedAgeSpan[1] = userAge
+          }
+
+          Groups.findOneAndUpdate(
+            { _id: req.body.groupId },
+            {
+              $addToSet: { members: user.email },
+              $set: {ageSpan: updatedAgeSpan}
+            },
+            (err, data) => {
+              if (err) res.status(500).send(err)
+              else {
+                res.status(200).send("Group was created.")
+              }
+            }
+          )
+        }
+      })
+
+      
     } else {
       res.status(404).send("user does not exist")
     }
@@ -215,7 +245,7 @@ app.put("/editGroup", (req, res) => {
 })
 
 // body vil se slik ut
-//{
+//{ 
 //  groupId: insertGroupToRemoveMemberFromIdHere,
 //  adminEmail: "groupAdmin@email.no",
 //  userEmail: "userToBeRemovedFromGroup@mail.no"
@@ -238,12 +268,19 @@ app.put("/removeMember", (req, res) => {
           } else {
             res.status(200).send(group)
           }
-        }
-      )
+      })
     } else {
       res.status(404).send("user does not exist")
     }
   })
 })
 
+const dateToAge = (birthDate) => {
+  const thisYear = new Date().getFullYear()
+  const year = thisYear - parseInt(birthDate.split("-")[0])
+  return year;
+}
+
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
+
+
