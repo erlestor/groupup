@@ -7,7 +7,7 @@ import InterestCheckBox from "./InterestCheckBox"
 
 import axios from "../../axios"
 
-import { interests, fylker } from "./groupAttributes"
+import { allInterests as interests, fylker } from "./groupAttributes"
 import AddMember from "./AddMember"
 
 const EditGroup = ({ user }) => {
