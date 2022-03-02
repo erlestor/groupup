@@ -20,7 +20,7 @@ const FilterGroups = () => {
   const [groups, setGroups] = useState([])
   const [filteredGroups, setFilteredGroups] = useState([])
 
-  const [showFilters, setShowFilters] = useState(false)
+  const [showFilters, setShowFilters] = useState(true)
 
   //Get group from backend
   const getGroups = async () => {
