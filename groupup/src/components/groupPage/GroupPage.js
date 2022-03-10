@@ -125,7 +125,7 @@ const GroupPage = ({ user }) => {
         </div>
         <div className="right-container">
           <div className="info-container">
-            <span className="bold">Despription:</span> {description}
+            <span className="bold">Description:</span> {description}
           </div>
         </div>
       </div>
