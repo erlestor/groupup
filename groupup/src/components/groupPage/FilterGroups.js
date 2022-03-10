@@ -96,7 +96,7 @@ const FilterGroups = () => {
     <div>
       <div className="filters">
         <div className="filter-headers">
-          <h2>Apply to filter groups</h2>
+          <h2>Filter Groups</h2>
           {showFilters ? (
             <BsArrowsAngleContract
               onClick={() => setShowFilters(false)}
@@ -134,7 +134,7 @@ const FilterGroups = () => {
                 )
               })}
             </div>
-
+            <div className="interest-container">
             <select
               className="group-input select-fylke"
               onChange={(e) => setLocation(e.target.value)}
@@ -152,10 +152,13 @@ const FilterGroups = () => {
                 )
               })}
             </select>
+            </div>
             <div className="filter-input-container">
               <input
                 className="ageMin-input"
                 type="number"
+                min = "0"
+                max = "100"
                 placeholder="Minimum age"
                 onChange={(e) => setAgeMin(e.target.value)}
               />
@@ -163,6 +166,8 @@ const FilterGroups = () => {
               <input
                 className="ageMax-input"
                 type="number"
+                min = "0"
+                max = "100"
                 placeholder="Maximum age"
                 onChange={(e) => setAgeMax(e.target.value)}
               />
@@ -170,6 +175,7 @@ const FilterGroups = () => {
               <input
                 className="groupCountMin-input"
                 type="number"
+                min = "0"
                 placeholder="Minimum group size"
                 onChange={(e) => setGroupCountMin(e.target.value)}
               />
@@ -177,6 +183,7 @@ const FilterGroups = () => {
               <input
                 className="groupCountMax-input"
                 type="number"
+                min = "0"
                 placeholder="Maximum group size"
                 onChange={(e) => setGroupCountMax(e.target.value)}
               />

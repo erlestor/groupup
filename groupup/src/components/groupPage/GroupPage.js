@@ -108,20 +108,30 @@ const GroupPage = ({ user }) => {
   //HTML
   return (
     <div className="group-page">
+      <div className="header-container">
       {isAdmin && (
         <Link to={`/group/${id}/edit`} className="router-link">
           <button className="edit-button">{<MdEdit size={20} />}</button>
         </Link>
       )}
-      <h2 className="group-name-title">{name}</h2>
       <img src={image} alt="Gruppebilde" />
-      <div className="group-main-info">
-        <div>
-          <span className="bold">Members:</span> {usernames.join(", ")}
+      <h2 className="group-name-title">{name}</h2>
+      </div>
+      <div className="under-container">
+        <div className="left-container">
+          <div className="members-container">
+            <span className="bold">Members:</span> {usernames.join(", ")}
+          </div>
+          <div className="interests-container">
+            <span className="bold">Interests:</span> {interests.join(", ")}
+          </div>
         </div>
-        <div>
-          <span className="bold">Interests:</span> {interests.join(", ")}
+        <div className="right-container">
+          <div className="info-container">
+            <span className="bold">Description:</span> {description}
+          </div>
         </div>
+      </div>
         <div>
           <span className="bold">Location:</span> {location}
         </div>
@@ -141,7 +151,7 @@ const GroupPage = ({ user }) => {
       ) : (
         <button className="match-button">MATCH</button>
       )}
-      <div className="group-desc">{description}</div>
+      
     </div>
   )
 }

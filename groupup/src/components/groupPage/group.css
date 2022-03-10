@@ -8,7 +8,7 @@
   padding: 10px 10px 10px 10px;
   cursor: pointer;
   user-select: none;
-  background-color: lightgray;
+  background-color: white;
   box-shadow: gray 1px 1px;
 }
 
@@ -17,7 +17,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-content: center;
-  background-color: white;
+  background-color: rgba(211, 211, 211, 0.281);
   padding: 20px;
   margin: 0px 200px;
   border-radius: 10px 10px 0 0;
@@ -34,10 +34,10 @@
 
 .group-page img {
   height: 180px;
-  width: 320px;
+  width: 180px;
   align-self: center;
   margin: 20px;
-  border-radius: 20px;
+  border-radius: 10000px;
 }
 
 .group-page {
@@ -50,6 +50,7 @@
   padding: 20px;
   min-height: 100vh;
   min-width: 600px;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .group-main-info {
@@ -64,9 +65,14 @@
 }
 
 .group-name-title {
-  margin: 0px;
+  margin: 10px;
+  font-size: 60px;
+  color: white;
   display: inline-block;
   user-select: none;
+  margin-top: auto;
+  text-shadow: 1px 1px black;
+  
 }
 
 .match-button {
@@ -74,9 +80,14 @@
   text-align: center;
   width: 100px;
   padding: 10px;
-  margin-bottom: 20px;
+  margin: 20px 20px 20px 20px;
   border-radius: 10px;
-  background-color: lightgray;
+  background-color: grey;
+  color: #033e46;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  color: white;
 }
 
 .edit-button {
@@ -88,7 +99,7 @@
   background-color: lightgray;
 }
 
-button {
+.button {
   cursor: pointer;
 }
 
@@ -111,8 +122,111 @@ button {
   border-radius: 4px;
   user-select: none;
   color: black;
+  cursor: pointer;
 }
 
 .icon {
   cursor: pointer;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 0px 0px 0px;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  user-select: none;
+  background-image: linear-gradient(to left, #2eaf7eb0,#2eaf7d);
+ 
+ 
+}
+.under-container {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 20px 20px 20px;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  user-select: none;
+  background-color: white;
+  
+}
+.left-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  width: 50%;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  user-select: none;
+  background-color: white;
+  
+
+}
+.right-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  width: 50%;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  user-select: none;
+  background-color: white;
+
+}
+.members-container {
+  display: flex;
+  width: auto;
+  height: 50%;
+  flex-direction: column;
+  margin: 0px 0px 20px 0px;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  user-select: none;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px black;
+}
+.interests-container {
+  display: flex;
+  width: auto;
+  height: 50%;
+  flex-direction: column;
+  margin: 0px 0px 20px 0px;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  user-select: none;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px black;
+  
+}
+.info-container {
+  display: flex;
+  width: auto;
+  height: 100%;
+  flex-direction: column;
+  margin: 0px 0px 20px 0px;
+  border-radius: 15px;
+  padding: 10px 10px 10px 10px;
+  user-select: none;
+  background-color: white;
+  box-shadow: 1px 1px 1px 1px black;
+  
+ }
+
+.create-btn{
+  padding: 10px;
+  border-radius: 10px 10px 10px 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #033e468c;
+  margin :10px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border: none;
+}
+
+.skjalgsittbilde{
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
 }
