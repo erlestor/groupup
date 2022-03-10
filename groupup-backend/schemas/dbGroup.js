@@ -10,7 +10,8 @@ const groupSchema = mongoose.Schema({
   members: [String],
   image: String,
   ageSpan: [String],
-  likedBy: [String]
+  likedBy: [String],
+  goldMembership: Boolean
 })
 
 export default mongoose.model("groups", groupSchema)
