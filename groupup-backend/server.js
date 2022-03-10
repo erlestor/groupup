@@ -318,8 +318,8 @@ app.put("/matchGroups", (req, res) => {
             }
           }) 
        } else {
-         const liked = (req.body.superLike) ? {superLikedBy: req.body.groupIdToBeAdded } : {likedBy: req.body.groupIdToBeAdded}
-          Groups.findByIdAndUpdate({_id: req.body.groupIdToAddTo}, {$addToSet: {liked}}, (err, data) => {
+          const liked = (Boolean(req.body.superLike)) ? {superLikedBy: req.body.groupIdToBeAdded } : {likedBy: req.body.groupIdToBeAdded}
+          Groups.findByIdAndUpdate({_id: req.body.groupIdToAddTo}, {$addToSet: liked}, (err, data) => {
           if (err) {
             res.status(500).send(err)
           } else {
