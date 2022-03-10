@@ -9,7 +9,8 @@ const groupSchema = mongoose.Schema({
   adminEmail: String,
   members: [String],
   image: String,
-  ageSpan: [String]
+  ageSpan: [String],
+  goldMembership: Boolean,
 })
 
 export default mongoose.model("groups", groupSchema)
