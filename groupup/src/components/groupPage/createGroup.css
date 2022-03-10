@@ -94,3 +94,17 @@
   background-color: grey;
 }
 
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.checkbox {
+  margin-left: 15px;
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.checkbox-label {
+}

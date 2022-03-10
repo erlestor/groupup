@@ -4,6 +4,7 @@ import Cors from "cors"
 import Users from "./schemas/dbUser.js"
 import Groups from "./schemas/dbGroup.js"
 import bodyparser from "body-parser"
+import Matches from "./schemas/dbMatch.js"
 //mongoDB pw:
 
 //Config
@@ -280,6 +281,45 @@ const dateToAge = (birthDate) => {
   const year = thisYear - parseInt(birthDate.split("-")[0])
   return year;
 }
+
+//Add groupId to another group's likedBy array
+/**
+ * 
+ * body = {
+ *  groupIdToBeAdded: String,
+ *  groupIdToAddTo: String
+ * }
+ * 
+ */
+app.put("/matchGroups", (req, res) => {
+    if (req.body.groupIdToAddTo === req.body.groupIdToBeAdded) {
+      res.status(400).send("Cannot match with self.")
+      return
+    }
+    Groups.find({_id: {$in: [req.body.groupIdToAddTo, req.body.groupIdToBeAdded]}}, (err, groups) => { 
+        if (err) {
+          console.log(err)
+          res.send(500).status("Internal server error.")
+        } 
+        const groupToBeAdded = groups[1]
+        if (groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo)) {
+          Matches.create({ matcherID: req.body.groupIdToBeAdded, matchedID:req.body.groupIdToAddTo }, (err, data) => {
+            if (err) {
+              res.status(500).send(err)
+            } else {
+              res.status(200).send(data)
+            }
+        })}
+        Groups.findByIdAndUpdate({_id: req.body.groupIdToAddTo}, {$addToSet: {likedBy: req.body.groupIdToBeAdded}}, (err, data) => {
+          if (err) {
+            res.status(500).send(err)
+          } else {
+            res.status(200).send(data)
+          }
+        })
+    })
+})
+
 
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
 
