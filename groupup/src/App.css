@@ -44,3 +44,22 @@ footer {
   color: black;
   display: flex;
 }
+
+.header-btn {
+  margin: 10px;
+}
+
+.header-login-container h3 {
+  margin-right: 10px;
+}
+
+.header-group-container {
+  display: flex;
+  align-items: center;
+  margin: 0 20px 0 20px;
+  cursor: pointer;
+}
+
+.header-group-container p {
+  margin-left: 5px;
+}
