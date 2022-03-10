@@ -4,12 +4,8 @@ import { MdEdit } from "react-icons/md"
 import axios from "../../axios"
 import { useParams, Link } from "react-router-dom"
 
-const GroupPage = ({ user }) => {
-  const { id } = useParams()
-
-  //Age span
-  const thisYear = new Date().getFullYear()
-  const [span, setSpan] = useState("")
+const GroupPage = ({ user, group }) => {
+  const { matchGroupId } = useParams()
 
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
@@ -17,44 +13,16 @@ const GroupPage = ({ user }) => {
   const [interests, setInterests] = useState([""])
   const [location, setLocation] = useState("")
   const [date, setDate] = useState("")
-  const [usernames, setUsernames] = useState([""])
   const [adminEmail, setAdminEmail] = useState([""])
   const [goldmembership, setGoldmembership] = useState(false)
-
+  const [ageSpan, setAgeSpan] = useState(false)
   const [image, setImage] = useState("")
+
   //Check if admin
   const isAdmin = user && user.email === adminEmail
 
   //Check if member
   const isMember = user && members.includes(user.email)
-
-  const calcAgeSpan = async () => {
-    if (members.length > 0) {
-      await axios
-        .get("/users")
-        .then((response) => {
-          const users = response.data
-          const usersInMembers = users.filter((user) =>
-            members.includes(user.email)
-          )
-          setUsernames(usersInMembers.map((user) => user.name))
-          const userAges = []
-          usersInMembers.forEach((element) => {
-            userAges.push(parseInt(element.birthDate.split("-")[0]))
-          })
-
-          const span =
-            thisYear -
-            Math.max(...userAges) +
-            " to " +
-            (thisYear - Math.min(...userAges))
-          setSpan(span)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-  }
 
   useEffect(() => {
     //Get group from backend
@@ -63,8 +31,7 @@ const GroupPage = ({ user }) => {
         .get("/groups")
         .then((response) => {
           const groups = response.data
-          console.log(groups)
-          const matchingGroups = groups.filter((g) => g._id === id)
+          const matchingGroups = groups.filter((g) => g._id === matchGroupId)
           if (matchingGroups.length > 0) {
             const {
               name,
@@ -76,6 +43,7 @@ const GroupPage = ({ user }) => {
               image,
               adminEmail,
               goldMembership,
+              ageSpan,
             } = matchingGroups[0]
             setName(name)
             setDescription(description)
@@ -86,6 +54,7 @@ const GroupPage = ({ user }) => {
             setImage(image)
             setAdminEmail(adminEmail)
             setGoldmembership(goldMembership)
+            setAgeSpan(ageSpan)
           } else {
             console.error("no matching group")
           }
@@ -96,20 +65,26 @@ const GroupPage = ({ user }) => {
     }
 
     getGroup()
-  }, [id])
+  }, [matchGroupId])
 
-  useEffect(() => {
-    calcAgeSpan()
-
-    // ikke fjern linjen under
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [members])
+  const handleLike = async (superlike) => {
+    await axios
+      .put("/matchGroups", {
+        groupIdToBeAdded: group.id,
+        groupIdToAddTo: matchGroupId,
+        superLike: superlike,
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((err) => console.error(err))
+  }
 
   //HTML
   return (
     <div className="group-page">
       {isAdmin && (
-        <Link to={`/group/${id}/edit`} className="router-link">
+        <Link to={`/group/${matchGroupId}/edit`} className="router-link">
           <button className="edit-button">{<MdEdit size={20} />}</button>
         </Link>
       )}
@@ -117,7 +92,7 @@ const GroupPage = ({ user }) => {
       <img src={image} alt="Gruppebilde" />
       <div className="group-main-info">
         <div>
-          <span className="bold">Members:</span> {usernames.join(", ")}
+          <span className="bold">Members:</span> {members.join(", ")}
         </div>
         <div>
           <span className="bold">Interests:</span> {interests.join(", ")}
@@ -126,7 +101,8 @@ const GroupPage = ({ user }) => {
           <span className="bold">Location:</span> {location}
         </div>
         <div>
-          <span className="bold">Age span:</span> {span}
+          <span className="bold">Age span:</span>{" "}
+          {ageSpan[0] + "-" + ageSpan[1]}
         </div>
         <div>
           <span className="bold">Membership: </span>
@@ -139,7 +115,9 @@ const GroupPage = ({ user }) => {
       {isMember || isAdmin ? (
         ""
       ) : (
-        <button className="match-button">MATCH</button>
+        <button className="match-button" onClick={() => handleLike(false)}>
+          Like
+        </button>
       )}
       <div className="group-desc">{description}</div>
     </div>
