@@ -307,19 +307,25 @@ app.put("/matchGroups", (req, res) => {
             if (err) {
               res.status(500).send(err)
             } else {
-              res.status(200).send(data)
+              Groups.findByIdAndUpdate({_id: req.body.groupIdToBeAdded}, {$pull: {likedBy: req.body.groupIdToAddTo}}, (err, data) => {
+                if (err) {
+                  res.status(500).send(err)
+                } else {
+                  res.status(200).send(data)
+                }
+              })
             }
-        })}
-        Groups.findByIdAndUpdate({_id: req.body.groupIdToAddTo}, {$addToSet: {likedBy: req.body.groupIdToBeAdded}}, (err, data) => {
+          }) 
+       } else {
+          Groups.findByIdAndUpdate({_id: req.body.groupIdToAddTo}, {$addToSet: {likedBy: req.body.groupIdToBeAdded}}, (err, data) => {
           if (err) {
             res.status(500).send(err)
           } else {
             res.status(200).send(data)
           }
-        })
+        })}
     })
 })
-
 
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
 
