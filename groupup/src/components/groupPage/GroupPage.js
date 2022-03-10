@@ -19,8 +19,9 @@ const GroupPage = ({ user }) => {
   const [date, setDate] = useState("")
   const [usernames, setUsernames] = useState([""])
   const [adminEmail, setAdminEmail] = useState([""])
-  const [image, setImage] = useState("")
+  const [goldmembership, setGoldmembership] = useState(false)
 
+  const [image, setImage] = useState("")
   //Check if admin
   const isAdmin = user && user.email === adminEmail
 
@@ -74,6 +75,7 @@ const GroupPage = ({ user }) => {
               date,
               image,
               adminEmail,
+              goldMembership,
             } = matchingGroups[0]
             setName(name)
             setDescription(description)
@@ -83,6 +85,7 @@ const GroupPage = ({ user }) => {
             setDate(date)
             setImage(image)
             setAdminEmail(adminEmail)
+            setGoldmembership(goldMembership)
           } else {
             console.error("no matching group")
           }
@@ -126,8 +129,12 @@ const GroupPage = ({ user }) => {
           <span className="bold">Age span:</span> {span}
         </div>
         <div>
-          <span className="bold">When to meet:</span> {date}
+          <span className="bold">Membership: </span>
+          {goldmembership ? "gold" : "normal"}
         </div>
+        {/* <div>
+          <span className="bold">When to meet:</span> {date}
+        </div> */}
       </div>
       {isMember || isAdmin ? (
         ""
