@@ -28,6 +28,7 @@ const CreateGroup = ({ user }) => {
   const [location, setLocation] = useState("")
   const [image, setImage] = useState(null)
   const [selectedInterests, setSelectedInterests] = useState([])
+  const [goldmembership, setGoldmembership] = useState(false)
 
   const navigate = useNavigate()
 
@@ -47,6 +48,7 @@ const CreateGroup = ({ user }) => {
         adminEmail: user.email,
         members: [user.email],
         image: image,
+        goldMembership: goldmembership,
       })
       .then((response) => {
         console.log(response)
@@ -151,6 +153,20 @@ const CreateGroup = ({ user }) => {
             currentImage={image}
             setCurrentImage={setImage}
           />
+          <div className="checkbox-container">
+            <label for="goldmembership" className="checkbox-label">
+              Gold membership
+            </label>
+            <input
+              type="checkbox"
+              id="goldmembership"
+              name="goldmembership"
+              className="checkbox"
+              value={goldmembership}
+              onChange={() => setGoldmembership(!goldmembership)}
+            />
+          </div>
+          <br></br>
           <button
             className="btn"
             id="create-group-btn"
