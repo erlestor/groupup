@@ -353,6 +353,26 @@ app.get("/getAllSuperLikedBy", (req, res) => {
   })
 })
 
+/**
+ * Get all matches for a given group id
+ * 
+ * body = {
+ *    groupId: String
+ * }
+ */
+
+app.get("/getMatchesById", (req, res) => {
+
+  Matches.find({$or: [{matcherID: req.body.groupId}, {matchedID: req.body.groupId}]}, (err, matches) => {
+    if (err) {
+      res.status(500).send("Internal server error.")
+    } else {
+      res.status(200).send(matches)
+    }
+  })
+
+})
+
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
 
 
