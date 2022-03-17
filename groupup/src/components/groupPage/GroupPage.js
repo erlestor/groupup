@@ -16,56 +16,55 @@ const GroupPage = ({ user, group }) => {
   const [adminEmail, setAdminEmail] = useState([""])
   const [goldmembership, setGoldmembership] = useState(false)
   const [ageSpan, setAgeSpan] = useState(false)
+  const [likedBy, setLikedBy] = useState([])
   const [image, setImage] = useState("")
 
   //Check if admin
   const isAdmin = user && user.email === adminEmail
 
-  //Check if member
-  const isMember = user && members.includes(user.email)
-
   useEffect(() => {
-    //Get group from backend
-    const getGroup = async () => {
-      await axios
-        .get("/groups")
-        .then((response) => {
-          const groups = response.data
-          const matchingGroups = groups.filter((g) => g._id === matchGroupId)
-          if (matchingGroups.length > 0) {
-            const {
-              name,
-              description,
-              members,
-              interests,
-              location,
-              date,
-              image,
-              adminEmail,
-              goldMembership,
-              ageSpan,
-            } = matchingGroups[0]
-            setName(name)
-            setDescription(description)
-            setMembers(members)
-            setInterests(interests)
-            setLocation(location)
-            setDate(date)
-            setImage(image)
-            setAdminEmail(adminEmail)
-            setGoldmembership(goldMembership)
-            setAgeSpan(ageSpan)
-          } else {
-            console.error("no matching group")
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-
     getGroup()
-  }, [matchGroupId])
+  }, [])
+
+  const getGroup = async () => {
+    await axios
+      .get("/groups")
+      .then((response) => {
+        const groups = response.data
+        const matchingGroups = groups.filter((g) => g._id === matchGroupId)
+        if (matchingGroups.length > 0) {
+          const {
+            name,
+            description,
+            members,
+            interests,
+            location,
+            date,
+            image,
+            adminEmail,
+            goldMembership,
+            ageSpan,
+            likedBy,
+          } = matchingGroups[0]
+          setName(name)
+          setDescription(description)
+          setMembers(members)
+          setInterests(interests)
+          setLocation(location)
+          setDate(date)
+          setImage(image)
+          setAdminEmail(adminEmail)
+          setGoldmembership(goldMembership)
+          setAgeSpan(ageSpan)
+          setLikedBy(likedBy)
+        } else {
+          console.error("no matching group")
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 
   const handleLike = async (superlike) => {
     await axios
@@ -78,42 +77,35 @@ const GroupPage = ({ user, group }) => {
         console.log(response)
       })
       .catch((err) => console.error(err))
+
+    getGroup()
   }
 
   //HTML
   return (
     <div className="group-page">
-      <div className="header-container">
-      {isAdmin && (
-        <Link to={`/group/${matchGroupId}/edit`} className="router-link">
-          <button className="edit-button">{<MdEdit size={20} />}</button>
-        </Link>
-      )}
-      </div>
       <img src={image} alt="Gruppebilde" />
 
       <div className="group-main-info">
         <div>
           <span className="bold">Members:</span> {members.join(", ")}
-
-      <h2 className="group-name-title">{name}</h2>
-      </div>
-      <div className="under-container">
-        <div className="left-container">
-          <div className="members-container">
-            <span className="bold">Members:</span> {members.join(", ")}
-          </div>
-          <div className="interests-container">
-            <span className="bold">Interests:</span> {interests.join(", ")}
-          </div>
-
+          <h2 className="group-name-title">{name}</h2>
         </div>
-        <div className="right-container">
-          <div className="info-container">
-            <span className="bold">Description:</span> {description}
+        <div className="under-container">
+          <div className="left-container">
+            <div className="members-container">
+              <span className="bold">Members:</span> {members.join(", ")}
+            </div>
+            <div className="interests-container">
+              <span className="bold">Interests:</span> {interests.join(", ")}
+            </div>
+          </div>
+          <div className="right-container">
+            <div className="info-container">
+              <span className="bold">Description:</span> {description}
+            </div>
           </div>
         </div>
-      </div>
         <div>
           <span className="bold">Location:</span> {location}
         </div>
@@ -129,14 +121,9 @@ const GroupPage = ({ user, group }) => {
           <span className="bold">When to meet:</span> {date}
         </div> */}
       </div>
-      {isMember || isAdmin ? (
-        ""
-      ) : (
-        <button className="match-button" onClick={() => handleLike(false)}>
-          Like
-        </button>
-      )}
-      
+      <button className="match-button" onClick={() => handleLike(false)}>
+        {likedBy && likedBy.includes(group.id) ? "Liked" : "Like"}
+      </button>
     </div>
   )
 }
