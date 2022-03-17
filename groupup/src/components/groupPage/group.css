@@ -3,7 +3,7 @@
   flex-direction: column;
   margin: 0px 0px 20px 0px;
   min-width: 700px;
-  max-width: 800px;
+  
   border-radius: 15px;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
@@ -55,7 +55,7 @@
 }
 
 .group-main-info {
-  margin: 5px 200px 20px 200px;
+  margin: 5px 5px 20px 5px;
   border-radius: 10px;
   background-color: white;
   display: flex;
@@ -72,7 +72,8 @@
   display: inline-block;
   user-select: none;
   margin-top: auto;
-  text-shadow: 1px 1px black;
+  text-shadow: 1px 1px rgb(18, 156, 0);
+  
 }
 
 .match-button {
@@ -83,7 +84,7 @@
   margin: 20px 20px 20px 20px;
   border-radius: 10px;
   background-color: grey;
-  color: #033e46;
+  color: white;
   font-size: 15px;
   cursor: pointer;
   border: none;
@@ -165,6 +166,8 @@
   padding: 10px 10px 10px 10px;
   user-select: none;
   background-color: white;
+
+  
 }
 .left-container {
   display: flex;
@@ -226,7 +229,7 @@
 .create-btn {
   padding: 10px;
   border-radius: 10px 10px 10px 10px;
-  color: white;
+  color: rgb(228, 10, 10);
   cursor: pointer;
   background-color: #033e468c;
   margin: 10px;
@@ -234,6 +237,8 @@
   display: inline-block;
   font-size: 16px;
   border: none;
+  box-shadow: 1px 1px black;
+
 }
 
 .skjalgsittbilde {
@@ -241,3 +246,8 @@
   width: 40px;
   border-radius: 5px;
 }
+
+.center{
+  margin:auto;
+}
+

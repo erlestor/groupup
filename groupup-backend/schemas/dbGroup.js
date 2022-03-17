@@ -11,6 +11,7 @@ const groupSchema = mongoose.Schema({
   image: String,
   ageSpan: [String],
   likedBy: [String],
+  superLikedBy: [String],
   goldMembership: Boolean
 })
 

@@ -46,7 +46,7 @@ const SelectGroup = ({ user, setGroup }) => {
         </h3>
         <button
           onClick={handleCreateGroupClick}
-          className="btn create-group-btn"
+          className="btnStor create-group-btn"
           id="create-group-btn"
         >
           Create new group

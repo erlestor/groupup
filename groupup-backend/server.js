@@ -138,19 +138,21 @@ app.put("/addUserToGroup", (req, res) => {
   Users.findOne({ email: req.body.userEmail }, function (err, user) {
     // user er brukeren som skal leggges til i gruppen
     if (user) {
-      const userAge = dateToAge(user.birthDate)
-      let updatedAgeSpan
 
-      Groups.findOne({ _id: req.body.groupId }, (err, group) => {
+      const userAge = dateToAge(user.birthDate)
+      let updatedAgeSpan;
+      
+      Groups.findOne({_id: req.body.groupId}, (err, group) => {
         if (err) {
           res.status(500).send(err)
-        } else {
+        }
+        else {
           updatedAgeSpan = group["ageSpan"]
 
           if (parseInt(updatedAgeSpan[0]) > userAge) {
             updatedAgeSpan[0] = userAge
           }
-
+    
           if (parseInt(updatedAgeSpan[1]) < userAge) {
             updatedAgeSpan[1] = userAge
           }
@@ -159,7 +161,7 @@ app.put("/addUserToGroup", (req, res) => {
             { _id: req.body.groupId },
             {
               $addToSet: { members: user.email },
-              $set: { ageSpan: updatedAgeSpan },
+              $set: {ageSpan: updatedAgeSpan}
             },
             (err, data) => {
               if (err) res.status(500).send(err)
@@ -170,6 +172,8 @@ app.put("/addUserToGroup", (req, res) => {
           )
         }
       })
+
+      
     } else {
       res.status(404).send("user does not exist")
     }
@@ -242,7 +246,7 @@ app.put("/editGroup", (req, res) => {
 })
 
 // body vil se slik ut
-//{
+//{ 
 //  groupId: insertGroupToRemoveMemberFromIdHere,
 //  adminEmail: "groupAdmin@email.no",
 //  userEmail: "userToBeRemovedFromGroup@mail.no"
@@ -265,8 +269,7 @@ app.put("/removeMember", (req, res) => {
           } else {
             res.status(200).send(group)
           }
-        }
-      )
+      })
     } else {
       res.status(404).send("user does not exist")
     }
@@ -276,98 +279,70 @@ app.put("/removeMember", (req, res) => {
 const dateToAge = (birthDate) => {
   const thisYear = new Date().getFullYear()
   const year = thisYear - parseInt(birthDate.split("-")[0])
-  return year
+  return year;
 }
 
 //Add groupId to another group's likedBy array
 /**
- *
+ * 
  * body = {
  *  groupIdToBeAdded: String,
  *  groupIdToAddTo: String,
  *  superlike: Boolean
  * }
- *
+ * 
  */
 app.put("/matchGroups", (req, res) => {
-  if (req.body.groupIdToAddTo === req.body.groupIdToBeAdded) {
-    res.status(400).send("Cannot match with self.")
-    return
-  }
-  Groups.find(
-    { _id: { $in: [req.body.groupIdToAddTo, req.body.groupIdToBeAdded] } },
-    (err, groups) => {
-      if (err) {
-        console.log(err)
-        res.send(500).status("Internal server error.")
-      }
-      const groupToBeAdded = groups[1]
-      if (
-        groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo) ||
-        groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo)
-      ) {
-        Matches.create(
-          {
-            matcherID: req.body.groupIdToBeAdded,
-            matchedID: req.body.groupIdToAddTo,
-          },
-          (err, data) => {
-            if (err) {
-              res.status(500).send(err)
-            } else {
-              Groups.findByIdAndUpdate(
-                { _id: req.body.groupIdToBeAdded },
-                {
-                  $pull: {
-                    likedBy: req.body.groupIdToAddTo,
-                    superLikedBy: req.body.groupIdToAddTo,
-                  },
-                },
-                (err, data) => {
-                  if (err) {
-                    res.status(500).send(err)
-                  } else {
-                    res.status(200).send(data)
-                  }
-                }
-              )
-            }
-          }
-        )
-      } else {
-        const liked = Boolean(req.body.superLike)
-          ? { superLikedBy: req.body.groupIdToBeAdded }
-          : { likedBy: req.body.groupIdToBeAdded }
-        Groups.findByIdAndUpdate(
-          { _id: req.body.groupIdToAddTo },
-          { $addToSet: liked },
-          (err, data) => {
-            if (err) {
-              res.status(500).send(err)
-            } else {
-              res.status(200).send(data)
-            }
-          }
-        )
-      }
+    if (req.body.groupIdToAddTo === req.body.groupIdToBeAdded) {
+      res.status(400).send("Cannot match with self.")
+      return
     }
-  )
+    Groups.find({_id: {$in: [req.body.groupIdToAddTo, req.body.groupIdToBeAdded]}}, (err, groups) => { 
+        if (err) {
+          console.log(err)
+          res.send(500).status("Internal server error.")
+        } 
+        const groupToBeAdded = groups[1]
+        if (groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo) || groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo)) {
+          Matches.create({ matcherID: req.body.groupIdToBeAdded, matchedID:req.body.groupIdToAddTo }, (err, data) => {
+            if (err) {
+              res.status(500).send(err)
+            } else {
+              Groups.findByIdAndUpdate({_id: req.body.groupIdToBeAdded}, {$pull: {likedBy: req.body.groupIdToAddTo, superLikedBy: req.body.groupIdToAddTo}}, (err, data) => {
+                if (err) {
+                  res.status(500).send(err)
+                } else {
+                  res.status(200).send(data)
+                }
+              })
+            }
+          }) 
+       } else {
+          const liked = (Boolean(req.body.superLike)) ? {superLikedBy: req.body.groupIdToBeAdded } : {likedBy: req.body.groupIdToBeAdded}
+          Groups.findByIdAndUpdate({_id: req.body.groupIdToAddTo}, {$addToSet: liked}, (err, data) => {
+          if (err) {
+            res.status(500).send(err)
+          } else {
+            res.status(200).send(data)
+          }
+        })}
+    })
 })
 
 /**
  * Gets all groups that have superliked req.body.groupId
- *
+ * 
  * body = {
  *    groupId: String
  * }
- *
+ * 
  */
 app.get("/getAllSuperLikedBy", (req, res) => {
-  Groups.findById({ _id: req.body.groupId }, (err, group) => {
+  Groups.findById({_id: req.body.groupId}, (err, group) => {
     if (err) {
       res.status(500).send("Internal server error")
     } else {
-      Groups.find({ _id: { $in: group.superLikedBy } }, (err, groups) => {
+      Groups.find({_id: {$in: group.superLikedBy}}, (err, groups) => {
         if (err) {
           res.status(500).send(err)
         } else {
@@ -380,23 +355,22 @@ app.get("/getAllSuperLikedBy", (req, res) => {
 
 /**
  * Get all matches for a given group id
- *
+ * 
  * body = {
  *    groupId: String
  * }
  */
 
 app.get("/getMatchesById", (req, res) => {
-  Matches.find(
-    { $or: [{ matcherID: req.body.groupId }, { matchedID: req.body.groupId }] },
-    (err, matches) => {
-      if (err) {
-        res.status(500).send("Internal server error.")
-      } else {
-        res.status(200).send(matches)
-      }
+
+  Matches.find({$or: [{matcherID: req.body.groupId}, {matchedID: req.body.groupId}]}, (err, matches) => {
+    if (err) {
+      res.status(500).send("Internal server error.")
+    } else {
+      res.status(200).send(matches)
     }
-  )
+  })
+
 })
 
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
