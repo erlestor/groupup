@@ -283,8 +283,9 @@ const dateToAge = (birthDate) => {
 /**
  *
  * body = {
- *  groupIdToBeAdded: String, the group that presses the button
- *  groupIdToAddTo: String, the gorup on the page where the button is :)
+ *  groupIdToBeAdded: String,
+ *  groupIdToAddTo: String,
+ *  superlike: Boolean
  * }
  *
  */
@@ -301,8 +302,10 @@ app.put("/matchGroups", (req, res) => {
         res.send(500).status("Internal server error.")
       }
       const groupToBeAdded = groups[1]
-      console.log(groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo))
-      if (groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo)) {
+      if (
+        groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo) ||
+        groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo)
+      ) {
         Matches.create(
           {
             matcherID: req.body.groupIdToBeAdded,
@@ -314,7 +317,12 @@ app.put("/matchGroups", (req, res) => {
             } else {
               Groups.findByIdAndUpdate(
                 { _id: req.body.groupIdToBeAdded },
-                { $pull: { likedBy: req.body.groupIdToAddTo } },
+                {
+                  $pull: {
+                    likedBy: req.body.groupIdToAddTo,
+                    superLikedBy: req.body.groupIdToAddTo,
+                  },
+                },
                 (err, data) => {
                   if (err) {
                     res.status(500).send(err)
@@ -327,9 +335,12 @@ app.put("/matchGroups", (req, res) => {
           }
         )
       } else {
+        const liked = Boolean(req.body.superLike)
+          ? { superLikedBy: req.body.groupIdToBeAdded }
+          : { likedBy: req.body.groupIdToBeAdded }
         Groups.findByIdAndUpdate(
           { _id: req.body.groupIdToAddTo },
-          { $addToSet: { likedBy: req.body.groupIdToBeAdded } },
+          { $addToSet: liked },
           (err, data) => {
             if (err) {
               res.status(500).send(err)
@@ -338,6 +349,51 @@ app.put("/matchGroups", (req, res) => {
             }
           }
         )
+      }
+    }
+  )
+})
+
+/**
+ * Gets all groups that have superliked req.body.groupId
+ *
+ * body = {
+ *    groupId: String
+ * }
+ *
+ */
+app.get("/getAllSuperLikedBy", (req, res) => {
+  Groups.findById({ _id: req.body.groupId }, (err, group) => {
+    if (err) {
+      res.status(500).send("Internal server error")
+    } else {
+      Groups.find({ _id: { $in: group.superLikedBy } }, (err, groups) => {
+        if (err) {
+          res.status(500).send(err)
+        } else {
+          res.status(200).send(groups)
+        }
+      })
+    }
+  })
+})
+
+/**
+ * Get all matches for a given group id
+ *
+ * body = {
+ *    groupId: String
+ * }
+ */
+
+app.get("/getMatchesById", (req, res) => {
+  Matches.find(
+    { $or: [{ matcherID: req.body.groupId }, { matchedID: req.body.groupId }] },
+    (err, matches) => {
+      if (err) {
+        res.status(500).send("Internal server error.")
+      } else {
+        res.status(200).send(matches)
       }
     }
   )
