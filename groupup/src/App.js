@@ -22,7 +22,12 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <Header user={user} setUser={setUser} group={group} />
+        <Header
+          user={user}
+          setUser={setUser}
+          group={group}
+          setGroup={setGroup}
+        />
         {user ? (
           <Routes>
             <Route
