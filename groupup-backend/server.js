@@ -138,21 +138,19 @@ app.put("/addUserToGroup", (req, res) => {
   Users.findOne({ email: req.body.userEmail }, function (err, user) {
     // user er brukeren som skal leggges til i gruppen
     if (user) {
-
       const userAge = dateToAge(user.birthDate)
-      let updatedAgeSpan;
-      
-      Groups.findOne({_id: req.body.groupId}, (err, group) => {
+      let updatedAgeSpan
+
+      Groups.findOne({ _id: req.body.groupId }, (err, group) => {
         if (err) {
           res.status(500).send(err)
-        }
-        else {
+        } else {
           updatedAgeSpan = group["ageSpan"]
 
           if (parseInt(updatedAgeSpan[0]) > userAge) {
             updatedAgeSpan[0] = userAge
           }
-    
+
           if (parseInt(updatedAgeSpan[1]) < userAge) {
             updatedAgeSpan[1] = userAge
           }
@@ -161,7 +159,7 @@ app.put("/addUserToGroup", (req, res) => {
             { _id: req.body.groupId },
             {
               $addToSet: { members: user.email },
-              $set: {ageSpan: updatedAgeSpan}
+              $set: { ageSpan: updatedAgeSpan },
             },
             (err, data) => {
               if (err) res.status(500).send(err)
@@ -172,8 +170,6 @@ app.put("/addUserToGroup", (req, res) => {
           )
         }
       })
-
-      
     } else {
       res.status(404).send("user does not exist")
     }
@@ -246,7 +242,7 @@ app.put("/editGroup", (req, res) => {
 })
 
 // body vil se slik ut
-//{ 
+//{
 //  groupId: insertGroupToRemoveMemberFromIdHere,
 //  adminEmail: "groupAdmin@email.no",
 //  userEmail: "userToBeRemovedFromGroup@mail.no"
@@ -269,7 +265,8 @@ app.put("/removeMember", (req, res) => {
           } else {
             res.status(200).send(group)
           }
-      })
+        }
+      )
     } else {
       res.status(404).send("user does not exist")
     }
@@ -279,54 +276,71 @@ app.put("/removeMember", (req, res) => {
 const dateToAge = (birthDate) => {
   const thisYear = new Date().getFullYear()
   const year = thisYear - parseInt(birthDate.split("-")[0])
-  return year;
+  return year
 }
 
 //Add groupId to another group's likedBy array
 /**
- * 
+ *
  * body = {
- *  groupIdToBeAdded: String,
- *  groupIdToAddTo: String
+ *  groupIdToBeAdded: String, the group that presses the button
+ *  groupIdToAddTo: String, the gorup on the page where the button is :)
  * }
- * 
+ *
  */
 app.put("/matchGroups", (req, res) => {
-    if (req.body.groupIdToAddTo === req.body.groupIdToBeAdded) {
-      res.status(400).send("Cannot match with self.")
-      return
-    }
-    Groups.find({_id: {$in: [req.body.groupIdToAddTo, req.body.groupIdToBeAdded]}}, (err, groups) => { 
-        if (err) {
-          console.log(err)
-          res.send(500).status("Internal server error.")
-        } 
-        const groupToBeAdded = groups[1]
-        if (groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo)) {
-          Matches.create({ matcherID: req.body.groupIdToBeAdded, matchedID:req.body.groupIdToAddTo }, (err, data) => {
+  if (req.body.groupIdToAddTo === req.body.groupIdToBeAdded) {
+    res.status(400).send("Cannot match with self.")
+    return
+  }
+  Groups.find(
+    { _id: { $in: [req.body.groupIdToAddTo, req.body.groupIdToBeAdded] } },
+    (err, groups) => {
+      if (err) {
+        console.log(err)
+        res.send(500).status("Internal server error.")
+      }
+      const groupToBeAdded = groups[1]
+      console.log(groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo))
+      if (groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo)) {
+        Matches.create(
+          {
+            matcherID: req.body.groupIdToBeAdded,
+            matchedID: req.body.groupIdToAddTo,
+          },
+          (err, data) => {
             if (err) {
               res.status(500).send(err)
             } else {
-              Groups.findByIdAndUpdate({_id: req.body.groupIdToBeAdded}, {$pull: {likedBy: req.body.groupIdToAddTo}}, (err, data) => {
-                if (err) {
-                  res.status(500).send(err)
-                } else {
-                  res.status(200).send(data)
+              Groups.findByIdAndUpdate(
+                { _id: req.body.groupIdToBeAdded },
+                { $pull: { likedBy: req.body.groupIdToAddTo } },
+                (err, data) => {
+                  if (err) {
+                    res.status(500).send(err)
+                  } else {
+                    res.status(200).send(data)
+                  }
                 }
-              })
+              )
             }
-          }) 
-       } else {
-          Groups.findByIdAndUpdate({_id: req.body.groupIdToAddTo}, {$addToSet: {likedBy: req.body.groupIdToBeAdded}}, (err, data) => {
-          if (err) {
-            res.status(500).send(err)
-          } else {
-            res.status(200).send(data)
           }
-        })}
-    })
+        )
+      } else {
+        Groups.findByIdAndUpdate(
+          { _id: req.body.groupIdToAddTo },
+          { $addToSet: { likedBy: req.body.groupIdToBeAdded } },
+          (err, data) => {
+            if (err) {
+              res.status(500).send(err)
+            } else {
+              res.status(200).send(data)
+            }
+          }
+        )
+      }
+    }
+  )
 })
 
 app.listen(port, () => console.log(`listening on localhost: ${port}`))
-
-
