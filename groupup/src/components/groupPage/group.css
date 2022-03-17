@@ -233,7 +233,7 @@
 .create-btn{
   padding: 10px;
   border-radius: 10px 10px 10px 10px;
-  color: white;
+  color: rgb(228, 10, 10);
   cursor: pointer;
   background-color: #033e468c;
   margin :10px;
@@ -241,6 +241,8 @@
   display: inline-block;
   font-size: 16px;
   border: none;
+  box-shadow: 1px 1px black;
+
 }
 
 .skjalgsittbilde{

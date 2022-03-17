@@ -61,7 +61,17 @@
   margin: 0 20px 0 20px;
   cursor: pointer;
 }
-
+.header-name-container {
+  display: flex;
+  align-items: center;
+  margin: 0 20px 0 20px;
+}
 .header-group-container p {
   margin-left: 5px;
+
+}
+
+.header-name-container p {
+  margin-left: 5px;
+  cursor: default;
 }
