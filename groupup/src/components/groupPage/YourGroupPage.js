@@ -66,9 +66,6 @@ const YourGroupPage = ({ user, group }) => {
         <button className="match-button">MATCH</button>
       )}
       <div className="group-desc">{description}</div>
-      <div className="matches">
-        <h2>Matches</h2>
-      </div>
     </div>
   )
 }
