@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import axios from "../../axios"
 import { useNavigate } from "react-router-dom"
+import { HiCursorClick } from "react-icons/hi"
 
 const Login = ({ setUser }) => {
   const navigate = useNavigate()
@@ -44,6 +45,10 @@ const Login = ({ setUser }) => {
       })
   }
 
+  const handleRegisterClick = () => {
+    navigate(`/register`)
+  }
+
   return (
     <div className="login-comp">
       <h2>Login</h2>
@@ -72,6 +77,7 @@ const Login = ({ setUser }) => {
           id="login-submit"
         />
         <p className="error">{error}</p>
+        <p onClick={handleRegisterClick} className="link">No account? Sign Up</p>
       </form>
     </div>
   )

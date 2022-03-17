@@ -65,6 +65,10 @@ const Register = ({ setUser }) => {
     setConfirmPassword("")
   }
 
+  const handleBackClick = () => {
+    navigate("/")
+  }
+
   const postUser = async () => {
     const name = firstName + " " + lastName
 
@@ -150,6 +154,7 @@ const Register = ({ setUser }) => {
           id="register-btn"
         />
         <p className="error">{error}</p>
+        <p onClick={handleBackClick} className="link">To login</p>
       </form>
     </div>
   )

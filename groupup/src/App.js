@@ -1,6 +1,7 @@
 import { useState } from "react"
 import "./App.css"
 import LoginPage from "./components/login/LoginPage"
+import RegisterPage from "./components/login/RegisterPage"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import GroupList from "./components/groupPage/GroupList"
@@ -34,6 +35,7 @@ function App() {
               path="/group/:matchGroupId"
               element={<GroupPage user={user} group={group} />}
             />
+            <Route path="/register" element={<RegisterPage setUser={setUser} />} />
             <Route
               path="/group"
               element={<YourGroupPage user={user} group={group} />}
@@ -43,7 +45,10 @@ function App() {
             <Route path="/match" element={<FilterGroups group={group} />} />
           </Routes>
         ) : (
-          <LoginPage setUser={setUser} />
+          <Routes>
+            <Route path="/register" element={<RegisterPage setUser={setUser} />} />
+            <Route path="/*" element={<LoginPage setUser={setUser} />} />
+          </Routes>
         )}
         <Footer />
       </div>
