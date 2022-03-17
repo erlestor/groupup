@@ -42,7 +42,7 @@ const Header = ({ user, setUser, group }) => {
         </div>
       )}
       {user && (
-        <div className="header-group-container">
+        <div className="header-name-container">
           <FaUserCircle size={30} />
           <p id="user-email">{user.email}</p>
         </div>
