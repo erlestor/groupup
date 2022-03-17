@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import "./group.css"
 import PropTypes from "prop-types"
-import axios from "../../axios"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 const Group = ({
   name,
@@ -11,42 +10,36 @@ const Group = ({
   location,
   image,
   meetingDate,
-  id
+  id,
+  ageSpan,
+  selectGroup,
+  setGroup,
+  adminEmail,
 }) => {
   const navigate = useNavigate()
-  const interestsString = interests.join(", ")
-  const thisYear = new Date().getFullYear()
-  const [span, setSpan] = useState()
 
-  //Get birthdate of all users, return lowest - highest
-  const calcAgeSpan = async () => {
-    await axios
-      .get("/users")
-      .then((response) => {
-        const users = response.data
-        const usersInMembers = users.filter((user) =>
-          members.includes(user.email)
-        )
-        const userAges = []
-        usersInMembers.forEach((element) => {
-          userAges.push(parseInt(element.birthDate.split("-")[0]))
-        })
-        const span =
-          thisYear -
-          Math.max(...userAges) +
-          " to " +
-          (thisYear - Math.min(...userAges))
-        setSpan(span)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }
-  calcAgeSpan()
+  const { userGroupId } = useParams()
 
   const handleClick = () => {
-    navigate(`/group/${id}`)
+    if (selectGroup) {
+      setGroup({
+        name,
+        members,
+        interests,
+        location,
+        image,
+        meetingDate,
+        id,
+        ageSpan,
+        selectGroup,
+        setGroup,
+        adminEmail,
+      })
+      navigate(`/match`)
+    } else navigate(`/group/${id}`)
   }
+
+  const interestsString = interests.join(", ")
 
   return (
     <div className="group-container" onClick={handleClick}>
@@ -62,7 +55,8 @@ const Group = ({
         )}
         {members !== [] ? (
           <div className="group-info">
-            <span className="bold">Age span:</span> {span}
+            <span className="bold">Age span: </span>
+            {ageSpan[0] + "-" + ageSpan[1]}
           </div>
         ) : (
           ""

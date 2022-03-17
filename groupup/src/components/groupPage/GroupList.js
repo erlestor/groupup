@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import Group from "./Group"
 import "./group.css"
 
-const GroupList = ({groups}) => {
-  
-
+const GroupList = ({ groups, selectGroup, setGroup }) => {
   const groupMap = groups.map((group, groupIdx) => (
     <Group
       name={group.name}
@@ -16,14 +13,13 @@ const GroupList = ({groups}) => {
       location={group.location}
       meetingDate={group.date}
       image={group.image}
+      ageSpan={group.ageSpan}
+      adminEmail={group.adminEmail}
+      selectGroup={selectGroup}
+      setGroup={setGroup}
       key={groupIdx}
     />
   ))
-  const navigate = useNavigate()
-  const handleClick = () => {
-    navigate("/create-group")
-  }
-
 
   return (
     <div className="group-list">

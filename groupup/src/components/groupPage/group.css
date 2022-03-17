@@ -87,7 +87,6 @@
   font-size: 15px;
   cursor: pointer;
   border: none;
-  color: white;
 }
 
 .edit-button {
@@ -115,7 +114,6 @@
   text-align: left;
 }
 
-
 .interest-box {
   margin: 2px;
   padding: 3px;
@@ -127,6 +125,25 @@
 
 .icon {
   cursor: pointer;
+}
+
+.create-group-btn {
+  width: 100%;
+  margin: 10px 0 10px 0;
+}
+
+.select-group-header {
+  width: 720px;
+}
+
+.select-group-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.select-group-description {
+  font-weight: normal;
 }
 
 .header-container {
@@ -230,3 +247,4 @@
   width: 40px;
   border-radius: 5px;
 }
+
