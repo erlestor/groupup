@@ -39,9 +39,8 @@
   color: red;
 }
 
-.login-comp {
-  margin-left: 40px;
-}
-.register-comp {
-  margin-right: 40px;
+.link {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
 }
