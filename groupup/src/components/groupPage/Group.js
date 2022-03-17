@@ -16,6 +16,8 @@ const Group = ({
   setGroup,
   adminEmail,
   description,
+  goldMembership,
+  superLikedBy,
 }) => {
   const navigate = useNavigate()
 
@@ -36,6 +38,8 @@ const Group = ({
         setGroup,
         adminEmail,
         description,
+        goldMembership,
+        superLikedBy,
       })
       navigate(`/match`)
     } else navigate(`/group/${id}`)

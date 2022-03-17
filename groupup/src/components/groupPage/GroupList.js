@@ -15,6 +15,8 @@ const GroupList = ({ groups, selectGroup, setGroup }) => {
       image={group.image}
       ageSpan={group.ageSpan}
       adminEmail={group.adminEmail}
+      goldMembership={group.goldMembership}
+      superLikedBy={group.superLikedBy}
       selectGroup={selectGroup}
       setGroup={setGroup}
       key={groupIdx}
