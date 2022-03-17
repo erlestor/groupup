@@ -21,7 +21,7 @@ import { allInterests as interests, fylker } from "./groupAttributes"
  *      Bilde for ønsket aktivitet, kanskje bare hente første treff på google bilder med søkeord fra interests?
  */
 
-const CreateGroup = ({ user }) => {
+const CreateGroup = ({ user, setGroup }) => {
   const [groupName, setGroupName] = useState("")
   const [groupDescription, setGroupDescription] = useState("")
   const [error, setError] = useState("")
@@ -50,12 +50,12 @@ const CreateGroup = ({ user }) => {
         image: image,
         goldMembership: goldmembership,
         likedBy: [],
-        superlikedBy: [],
+        superLikedBy: [],
       })
       .then((response) => {
         console.log(response)
-        const id = response.data._id
-        navigate(`/group/${id}`)
+        setGroup(response.data)
+        navigate(`/group`)
       })
       .catch((err) => {
         console.error(err)
