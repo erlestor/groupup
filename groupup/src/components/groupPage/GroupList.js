@@ -21,7 +21,15 @@ const GroupList = ({ groups, selectGroup, setGroup }) => {
     />
   ))
 
-  return <div className="group-list">{groupMap}</div>
+  return (
+    <div className="group-list">
+      <button onClick={handleClick} className="create-btn">
+        Create new group
+      </button>
+      <h2>All groups</h2>
+      {groupMap}
+    </div>
+  )
 }
 
 export default GroupList

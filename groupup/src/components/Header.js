@@ -2,6 +2,7 @@ import React from "react"
 import { HiUserGroup } from "react-icons/hi"
 import { FaUserCircle } from "react-icons/fa"
 import { useNavigate, Link } from "react-router-dom"
+import Bilde from "../Images/groupupBILDE.png"
 
 const Header = ({ user, setUser, group }) => {
   const navigate = useNavigate()
@@ -20,7 +21,8 @@ const Header = ({ user, setUser, group }) => {
   return (
     <div className="header">
       <Link to="/" className="router-link">
-        <HiUserGroup size={40} />
+        <img  src = {Bilde} className = "skjalgsittbilde"/>
+         
         <h1 className="header-text">GroupUp</h1>
       </Link>
       {user && (

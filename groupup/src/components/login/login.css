@@ -30,9 +30,9 @@
 .login-page .btn {
   padding: 10px;
   border-radius: 10px 10px 10px 10px;
-  background-color: #1059ef;
   color: white;
   cursor: pointer;
+  background-color: #033e46;
 }
 
 .error {
