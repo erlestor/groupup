@@ -101,7 +101,7 @@ const GroupPage = ({ user, group }) => {
       <div className="under-container">
         <div className="left-container">
           <div className="members-container">
-            <span className="bold">Members:</span> {usernames.join(", ")}
+            <span className="bold">Members:</span> {members.join(", ")}
           </div>
           <div className="interests-container">
             <span className="bold">Interests:</span> {interests.join(", ")}
