@@ -84,13 +84,12 @@ const GroupPage = ({ user, group }) => {
   //HTML
   return (
     <div className="group-page">
-      <img src={image} alt="Gruppebilde" />
+      <div className="header-container">
+        <img src={image} alt="Gruppebilde" />
+        <h2 className="group-name-title">{name}</h2>
+      </div>
 
       <div className="group-main-info">
-        <div>
-          <span className="bold">Members:</span> {members.join(", ")}
-          <h2 className="group-name-title">{name}</h2>
-        </div>
         <div className="under-container">
           <div className="left-container">
             <div className="members-container">
