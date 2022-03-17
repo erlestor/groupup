@@ -49,6 +49,8 @@ const CreateGroup = ({ user }) => {
         members: [user.email],
         image: image,
         goldMembership: goldmembership,
+        likedBy: [],
+        superlikedBy: [],
       })
       .then((response) => {
         console.log(response)

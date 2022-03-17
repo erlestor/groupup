@@ -31,60 +31,43 @@ const YourGroupPage = ({ user, group }) => {
   //HTML
   return (
     <div className="group-page">
-    <div className="header-container">
-    {isAdmin && (
-      <Link to={`/group/${id}/edit`} className="router-link">
-        <button className="edit-button">{<MdEdit size={20} />}</button>
-      </Link>
-    )}
-    
-    <img src={image} alt="Gruppebilde" />
-    <h2 className="group-name-title">{name}</h2>
-    </div>
-    <div className="group-main-info">
-    <div className="under-container">
-      <div className="left-container">
-        <div className="members-container">
+      {isAdmin && (
+        <Link to={`/group/${id}/edit`} className="router-link">
+          <button className="edit-button">{<MdEdit size={20} />}</button>
+        </Link>
+      )}
+      <h1 className="group-name-title">{name}</h1>
+      <img src={image} alt="Gruppebilde" />
+      <div className="group-main-info">
+        <div>
           <span className="bold">Members:</span> {members.join(", ")}
         </div>
-        <div className="interests-container">
+        <div>
           <span className="bold">Interests:</span> {interests.join(", ")}
         </div>
-
-      </div>
-      <div className="right-container">
-        <div className="info-container">
-          <span className="bold">Description:</span> {description}
+        <div>
+          <span className="bold">Location:</span> {location}
         </div>
+        <div>
+          <span className="bold">Age span:</span>{" "}
+          {ageSpan[0] + "-" + ageSpan[1]}
+        </div>
+        <div>
+          <span className="bold">Membership: </span>
+          {goldMembership ? "gold" : "normal"}
+        </div>
+        {/* <div>
+          <span className="bold">When to meet:</span> {date}
+        </div> */}
       </div>
+      {isMember || isAdmin ? (
+        ""
+      ) : (
+        <button className="match-button">MATCH</button>
+      )}
+      <div className="group-desc">{description}</div>
     </div>
-    <div className="center">
-      <div>
-        <span className="bold">Location:</span> {location}
-      </div>
-      <div>
-        <span className="bold">Age span:</span>{" "}
-        {ageSpan[0] + "-" + ageSpan[1]}
-      </div>
-      <div>
-        <span className="bold">Membership: </span>
-        {goldMembership ? "gold" : "normal"}
-      </div>
-      {/* <div>
-        <span className="bold">When to meet:</span> {date}
-      </div> */}
-    </div>
-    </div>
-    {isMember || isAdmin ? (
-      ""
-    ) : (
-      <button className="match-button" >
-        Like
-      </button>
-    )}
-    
-  </div>
-)
+  )
 }
 
 export default YourGroupPage

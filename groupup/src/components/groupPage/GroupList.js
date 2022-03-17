@@ -22,7 +22,6 @@ const GroupList = ({ groups, selectGroup, setGroup }) => {
   ))
 
   return <div className="group-list">{groupMap}</div>
-
 }
 
 export default GroupList
