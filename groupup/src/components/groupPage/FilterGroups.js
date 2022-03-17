@@ -68,6 +68,7 @@ const FilterGroups = ({ group }) => {
       ageMax !== ""
         ? newFilteredGroups.filter((g) => parseInt(g.ageSpan[1]) <= ageMax)
         : newFilteredGroups
+    newFilteredGroups = newFilteredGroups.filter((g) => group.id !== g._id)
     filterInterests(newFilteredGroups)
   }, [
     location,
@@ -77,6 +78,7 @@ const FilterGroups = ({ group }) => {
     groupCountMax,
     meetingDate,
     selectedInterests,
+    groups,
   ])
 
   const filterInterests = (newFilteredGroups) => {
