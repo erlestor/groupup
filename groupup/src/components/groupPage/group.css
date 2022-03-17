@@ -3,7 +3,7 @@
   flex-direction: column;
   margin: 0px 0px 20px 0px;
   min-width: 700px;
-  
+
   border-radius: 15px;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
@@ -73,7 +73,6 @@
   user-select: none;
   margin-top: auto;
   text-shadow: 1px 1px rgb(18, 156, 0);
-  
 }
 
 .match-button {
@@ -88,7 +87,7 @@
   font-size: 15px;
   cursor: pointer;
   border: none;
-  background-color: #2eaf7d;
+  background-color: #033e46;
   color: white;
 }
 
@@ -133,6 +132,7 @@
 .create-group-btn {
   width: 100%;
   margin: 10px 0 10px 0;
+  background-color: #033e46;
 }
 
 .select-group-header {
@@ -166,8 +166,6 @@
   padding: 10px 10px 10px 10px;
   user-select: none;
   background-color: white;
-
-  
 }
 .left-container {
   display: flex;
@@ -231,14 +229,13 @@
   border-radius: 10px 10px 10px 10px;
   color: rgb(228, 10, 10);
   cursor: pointer;
-  background-color: #033e468c;
+  background-color: #033e46;
   margin: 10px;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   border: none;
   box-shadow: 1px 1px black;
-
 }
 
 .skjalgsittbilde {
@@ -247,7 +244,6 @@
   border-radius: 5px;
 }
 
-.center{
-  margin:auto;
+.center {
+  margin: auto;
 }
-
