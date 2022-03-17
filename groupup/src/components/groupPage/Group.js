@@ -15,6 +15,7 @@ const Group = ({
   selectGroup,
   setGroup,
   adminEmail,
+  description,
 }) => {
   const navigate = useNavigate()
 
@@ -34,6 +35,7 @@ const Group = ({
         selectGroup,
         setGroup,
         adminEmail,
+        description,
       })
       navigate(`/match`)
     } else navigate(`/group/${id}`)
