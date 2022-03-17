@@ -4,7 +4,6 @@ import LoginPage from "./components/login/LoginPage"
 import RegisterPage from "./components/login/RegisterPage"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
-import GroupList from "./components/groupPage/GroupList"
 import GroupPage from "./components/groupPage/GroupPage"
 import YourGroupPage from "./components/groupPage/YourGroupPage"
 import CreateGroup from "./components/groupPage/CreateGroup"
@@ -40,18 +39,29 @@ function App() {
               path="/group/:matchGroupId"
               element={<GroupPage user={user} group={group} />}
             />
-            <Route path="/register" element={<RegisterPage setUser={setUser} />} />
+            <Route
+              path="/register"
+              element={<RegisterPage setUser={setUser} />}
+            />
             <Route
               path="/group"
-              element={<YourGroupPage user={user} group={group} />}
+              element={
+                <YourGroupPage user={user} group={group} setGroup={setGroup} />
+              }
             />
             <Route path="/group/:id/edit" element={<EditGroup user={user} />} />
-            <Route path="/create-group" element={<CreateGroup user={user} />} />
+            <Route
+              path="/create-group"
+              element={<CreateGroup user={user} setGroup={setGroup} />}
+            />
             <Route path="/match" element={<FilterGroups group={group} />} />
           </Routes>
         ) : (
           <Routes>
-            <Route path="/register" element={<RegisterPage setUser={setUser} />} />
+            <Route
+              path="/register"
+              element={<RegisterPage setUser={setUser} />}
+            />
             <Route path="/*" element={<LoginPage setUser={setUser} />} />
           </Routes>
         )}
