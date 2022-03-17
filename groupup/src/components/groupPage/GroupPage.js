@@ -89,15 +89,11 @@ const GroupPage = ({ user, group }) => {
           <button className="edit-button">{<MdEdit size={20} />}</button>
         </Link>
       )}
-      </div>
+      
       <img src={image} alt="Gruppebilde" />
-
-      <div className="group-main-info">
-        <div>
-          <span className="bold">Members:</span> {members.join(", ")}
-
       <h2 className="group-name-title">{name}</h2>
       </div>
+      <div className="group-main-info">
       <div className="under-container">
         <div className="left-container">
           <div className="members-container">
@@ -114,6 +110,7 @@ const GroupPage = ({ user, group }) => {
           </div>
         </div>
       </div>
+      <div className="center">
         <div>
           <span className="bold">Location:</span> {location}
         </div>
@@ -128,6 +125,7 @@ const GroupPage = ({ user, group }) => {
         {/* <div>
           <span className="bold">When to meet:</span> {date}
         </div> */}
+      </div>
       </div>
       {isMember || isAdmin ? (
         ""
