@@ -5,6 +5,7 @@ import Users from "./schemas/dbUser.js"
 import Groups from "./schemas/dbGroup.js"
 import bodyparser from "body-parser"
 import Matches from "./schemas/dbMatch.js"
+import Reviews from "./schemas/dbReview.js"
 //mongoDB pw:
 
 //Config
@@ -415,6 +416,33 @@ app.post("/getGroupsByIds", (req, res) => {
       res.status(500).send("Internal server error. ")
     } else {
       res.status(200).send(groups)
+    }
+  })
+})
+
+app.post("/createReview", (req, res) => {
+
+  if (req.body.reviewerID === req.body.reviewedID) {
+    res.status(400).send("Group cannot review itself.")
+  }
+
+  const dbReview = req.body;
+  Reviews.create(dbReview, (err, data) => {
+    if (err) {
+      res.status(500).send("Internal server error.")
+    } else {
+      res.status(200).send(data)
+    }
+  })
+
+})
+
+app.post("/getReviewsByReviewed", (req, res) => {
+  Reviews.find({ReviewedID: req.body.reviewedID}, (err, data) => {
+    if (err) {
+      res.status(500).send("Internal server error.")
+    } else {
+      res.status(200).send(data)
     }
   })
 })
