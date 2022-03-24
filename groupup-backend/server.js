@@ -301,10 +301,11 @@ app.put("/matchGroups", (req, res) => {
       if (err) {
         res.send(500).status("Internal server error.")
       }
-      const groupToBeAdded = groups.filter(
-        (g) => g._id === req.body.groupIdToBeAdded
-      )[0]
 
+      
+      
+      const groupToBeAdded = groups.filter(g => JSON.stringify(g._id) === `"${req.body.groupIdToBeAdded}"`)[0]
+      
       if (
         groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo) ||
         groupToBeAdded.superLikedBy.includes(req.body.groupIdToAddTo)
