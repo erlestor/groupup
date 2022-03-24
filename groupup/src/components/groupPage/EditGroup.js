@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
 import "./editGroup.css"
 import ImageSelector from "./ImageSelector"
 
@@ -10,45 +9,15 @@ import axios from "../../axios"
 import { allInterests as interests, fylker } from "./groupAttributes"
 import AddMember from "./AddMember"
 
-const EditGroup = ({ user }) => {
+const EditGroup = ({ group }) => {
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
-  const [groupName, setGroupName] = useState("")
-  const [groupDescription, setGroupDescription] = useState("")
-  const [location, setLocation] = useState("")
-  const [image, setImage] = useState(null)
-  const [selectedInterests, setSelectedInterests] = useState([])
-
-  const { id } = useParams()
-
-  useEffect(() => {
-    //Get group from backend
-    const getGroup = async () => {
-      await axios
-        .get("/groups")
-        .then((response) => {
-          const groups = response.data
-          console.log(groups)
-          const matchingGroups = groups.filter((g) => g._id === id)
-          if (matchingGroups.length > 0) {
-            const { name, description, interests, location, image } =
-              matchingGroups[0]
-            setGroupName(name)
-            setGroupDescription(description)
-            setSelectedInterests(interests)
-            setLocation(location)
-            setImage(image)
-          } else {
-            console.error("no matching group")
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-
-    getGroup()
-  }, [id])
+  const [groupName, setGroupName] = useState(group.name)
+  const [groupDescription, setGroupDescription] = useState(group.description)
+  const [location, setLocation] = useState(group.location)
+  const [image, setImage] = useState(group.image)
+  const [selectedInterests, setSelectedInterests] = useState(group.interests)
+  const [meetingDate, setMeetingDate] = useState(group.date)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -91,11 +60,10 @@ const EditGroup = ({ user }) => {
   const updateGroup = async () => {
     await axios
       .put("/editGroup", {
-        _id: id,
         name: groupName,
         description: groupDescription,
         interests: selectedInterests,
-        date: "",
+        date: meetingDate,
         location: location,
         image: image,
       })
@@ -131,6 +99,15 @@ const EditGroup = ({ user }) => {
             placeholder="Beskrivelse av din gruppe"
             value={groupDescription}
             onChange={(e) => setGroupDescription(e.target.value)}
+          />
+          <input
+            required
+            className="group-input"
+            id="group-date"
+            placeholder="Meeting date"
+            value={meetingDate}
+            type="date"
+            onChange={(e) => setMeetingDate(e.target.value)}
           />
           <div className="interest-container">
             {interests.map((interest, i) => {

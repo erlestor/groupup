@@ -29,6 +29,8 @@ const CreateGroup = ({ user, setGroup }) => {
   const [image, setImage] = useState(null)
   const [selectedInterests, setSelectedInterests] = useState([])
   const [goldmembership, setGoldmembership] = useState(false)
+  const [phonenumber, setPhonenumber] = useState(null)
+  const [date, setDate] = useState(null)
 
   const navigate = useNavigate()
 
@@ -43,7 +45,7 @@ const CreateGroup = ({ user, setGroup }) => {
         name: groupName,
         description: groupDescription,
         interests: selectedInterests,
-        date: "",
+        date: date,
         location: location,
         adminEmail: user.email,
         members: [user.email],
@@ -51,6 +53,7 @@ const CreateGroup = ({ user, setGroup }) => {
         goldMembership: goldmembership,
         likedBy: [],
         superLikedBy: [],
+        phonenumber: phonenumber,
       })
       .then((response) => {
         console.log(response)
@@ -99,16 +102,32 @@ const CreateGroup = ({ user, setGroup }) => {
           <input
             required
             className="group-input"
-            placeholder="Gruppenavn"
+            placeholder="Group name"
             onChange={(e) => setGroupName(e.target.value)}
             id="group-name"
           />
           <textarea
             required
             className="group-input"
-            placeholder="Beskrivelse av din gruppe"
+            placeholder="Group description"
             onChange={(e) => setGroupDescription(e.target.value)}
             id="group-description"
+          />
+          <input
+            required
+            className="group-input"
+            placeholder="phone number"
+            type="number"
+            onChange={(e) => setPhonenumber(e.target.value)}
+            id="group-name"
+          />
+          <input
+            required
+            className="group-input"
+            id="group-date"
+            placeholder="Meeting date"
+            type="date"
+            onChange={(e) => setDate(e.target.value)}
           />
           <div className="interest-container">
             {interests.map((interest, i) => {
