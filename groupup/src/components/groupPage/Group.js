@@ -18,6 +18,8 @@ const Group = ({
   description,
   goldMembership,
   superLikedBy,
+  phonenumber,
+  showPhonenumber,
 }) => {
   const navigate = useNavigate()
 
@@ -31,7 +33,7 @@ const Group = ({
         interests,
         location,
         image,
-        meetingDate,
+        date: meetingDate,
         id,
         ageSpan,
         selectGroup,
@@ -40,6 +42,7 @@ const Group = ({
         description,
         goldMembership,
         superLikedBy,
+        phonenumber,
       })
       navigate(`/match`)
     } else navigate(`/group/${id}`)
@@ -87,6 +90,11 @@ const Group = ({
           </div>
         ) : (
           ""
+        )}
+        {showPhonenumber && (
+          <div className="group-info">
+            <span className="bold">Contact:</span> {phonenumber}
+          </div>
         )}
       </span>
     </div>

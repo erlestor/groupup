@@ -49,7 +49,7 @@ function App() {
                 <YourGroupPage user={user} group={group} setGroup={setGroup} />
               }
             />
-            <Route path="/group/:id/edit" element={<EditGroup user={user} />} />
+            <Route path="/group/edit" element={<EditGroup group={group} />} />
             <Route
               path="/create-group"
               element={<CreateGroup user={user} setGroup={setGroup} />}

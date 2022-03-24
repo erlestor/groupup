@@ -12,7 +12,8 @@ const groupSchema = mongoose.Schema({
   ageSpan: [String],
   likedBy: [String],
   superLikedBy: [String],
-  goldMembership: Boolean
+  goldMembership: Boolean,
+  phonenumber: Number,
 })
 
 export default mongoose.model("groups", groupSchema)

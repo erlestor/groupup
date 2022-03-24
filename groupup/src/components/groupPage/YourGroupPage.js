@@ -50,7 +50,7 @@ const YourGroupPage = ({ user, group, setGroup }) => {
         <img src={image} alt="Gruppebilde" />
         <h1 className="group-name-title">{name}</h1>
         {isAdmin && (
-          <Link to={`/group/${id}/edit`} className="router-link">
+          <Link to={`/group/edit`} className="router-link">
             <MdEdit size={40} />
           </Link>
         )}
