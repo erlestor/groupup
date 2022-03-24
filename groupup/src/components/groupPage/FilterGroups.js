@@ -148,7 +148,7 @@ const FilterGroups = ({ group }) => {
                   required
                 >
                   <option selected value="">
-                    Velg lokasjon
+                    Pick location
                   </option>
                   {fylker.map((fylke, i) => {
                     return (
