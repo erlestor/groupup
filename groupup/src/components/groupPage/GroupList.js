@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import Group from "./Group"
 import "./group.css"
 
-const GroupList = ({ groups, selectGroup, setGroup }) => {
+const GroupList = ({ groups, selectGroup, setGroup, showPhonenumber }) => {
   const groupMap = groups.map((group, groupIdx) => (
     <Group
       name={group.name}
@@ -16,10 +16,12 @@ const GroupList = ({ groups, selectGroup, setGroup }) => {
       ageSpan={group.ageSpan}
       adminEmail={group.adminEmail}
       goldMembership={group.goldMembership}
+      phonenumber={group.phonenumber}
       superLikedBy={group.superLikedBy}
       selectGroup={selectGroup}
       setGroup={setGroup}
       key={groupIdx}
+      showPhonenumber={showPhonenumber}
     />
   ))
 

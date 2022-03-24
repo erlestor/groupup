@@ -51,8 +51,9 @@ const MatchList = ({ group }) => {
 
   return (
     <>
+      {console.log(groups)}
       {groups.length > 0 ? (
-        <GroupList groups={groups} />
+        <GroupList groups={groups} showPhonenumber={true} />
       ) : (
         <h2>You have no matches</h2>
       )}
