@@ -1,5 +1,7 @@
 .app-container {
   background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 .bold {
@@ -68,7 +70,6 @@
 }
 .header-group-container p {
   margin-left: 5px;
-
 }
 
 .header-name-container p {

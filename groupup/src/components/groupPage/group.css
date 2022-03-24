@@ -3,7 +3,6 @@
   flex-direction: column;
   margin: 0px 0px 20px 0px;
   min-width: 700px;
-
   border-radius: 15px;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
@@ -21,7 +20,7 @@
   padding: 20px;
   margin: 0px 200px;
   border-radius: 10px 10px 0 0;
-  min-height: 100vh;
+  min-width: 730px;
 }
 
 .group-container img {
@@ -32,7 +31,7 @@
   float: left;
 }
 
-.group-page img {
+.header-container img {
   height: 180px;
   width: 180px;
   align-self: center;
@@ -48,7 +47,6 @@
   margin: 0px 200px;
   border-radius: 10px 10px 0px 0px;
   padding: 20px;
-  min-height: 100vh;
   min-width: 600px;
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5);
@@ -89,15 +87,6 @@
   border: none;
   background-color: #033e46;
   color: white;
-}
-
-.edit-button {
-  align-self: flex-end;
-  text-align: center;
-  width: 70px;
-  padding: 10px;
-  border-radius: 10px;
-  background-color: lightgray;
 }
 
 .button {
@@ -152,6 +141,7 @@
 .header-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin: 0px 0px 0px 0px;
   border-radius: 15px;
   padding: 10px 10px 10px 10px;
@@ -161,11 +151,10 @@
 .under-container {
   display: flex;
   flex-direction: row;
-  margin: 20px 20px 20px 20px;
   border-radius: 15px;
-  padding: 10px 10px 10px 10px;
   user-select: none;
   background-color: white;
+  margin-top: 20px;
 }
 .left-container {
   display: flex;
@@ -173,7 +162,7 @@
   min-height: 500px;
   width: 50%;
   border-radius: 15px;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 0;
   user-select: none;
   background-color: white;
 }
@@ -183,7 +172,7 @@
   min-height: 500px;
   width: 50%;
   border-radius: 15px;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 0 10px 10px;
   user-select: none;
   background-color: white;
 }
@@ -197,7 +186,7 @@
   padding: 10px 10px 10px 10px;
   user-select: none;
   background-color: white;
-  box-shadow: 1px 1px 1px 1px black;
+  outline: 1px solid black;
 }
 .interests-container {
   display: flex;
@@ -209,7 +198,7 @@
   padding: 10px 10px 10px 10px;
   user-select: none;
   background-color: white;
-  box-shadow: 1px 1px 1px 1px black;
+  outline: 1px solid black;
 }
 .info-container {
   display: flex;
@@ -221,7 +210,7 @@
   padding: 10px 10px 10px 10px;
   user-select: none;
   background-color: white;
-  box-shadow: 1px 1px 1px 1px black;
+  outline: 1px solid black;
 }
 
 .create-btn {
@@ -246,4 +235,17 @@
 
 .center {
   margin: auto;
+}
+
+.filter-page {
+  min-height: 100vh;
+}
+
+.your-group-matches-header {
+  margin: 20px 0 20px 0;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
 }

@@ -57,7 +57,7 @@ const AddMember = () => {
           <button
             className="btn btn-grey"
             id="to-group-page-btn"
-            onClick={() => navigate(`/group/${id}`)}
+            onClick={() => navigate(`/group`)}
           >
             Til gruppesiden
           </button>

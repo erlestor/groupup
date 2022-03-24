@@ -97,7 +97,7 @@ const FilterGroups = ({ group }) => {
   return (
     <>
       {group ? (
-        <div>
+        <div className="filter-page">
           <div className="filters">
             <div className="filter-headers">
               <h2>Apply to filter groups</h2>
@@ -148,7 +148,7 @@ const FilterGroups = ({ group }) => {
                   required
                 >
                   <option selected value="">
-                    Velg lokasjon
+                    Pick location
                   </option>
                   {fylker.map((fylke, i) => {
                     return (

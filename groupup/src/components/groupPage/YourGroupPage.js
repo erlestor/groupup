@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
 import "./group.css"
 import { MdEdit } from "react-icons/md"
-import { useParams, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
+import axios from "../../axios"
+import MatchList from "./MatchList"
+import GroupList from "./GroupList"
 
-const YourGroupPage = ({ user, group }) => {
-  if (!group) {
-    return <h1>You're not in a group</h1>
-  }
+const YourGroupPage = ({ user, group, setGroup }) => {
+  const [superlikes, setSuperlikes] = useState([])
 
   const {
     name,
@@ -14,31 +15,45 @@ const YourGroupPage = ({ user, group }) => {
     members,
     interests,
     location,
-    date,
     image,
     adminEmail,
     goldMembership,
     id,
     ageSpan,
+    superLikedBy,
   } = group
 
   //Check if admin
   const isAdmin = user && user.email === adminEmail
 
-  //Check if member
-  const isMember = user && members.includes(user.email)
+  const getSuperlikes = async () => {
+    await axios
+      .post("/getGroupsByIds", { idList: superLikedBy })
+      .then((response) => {
+        setSuperlikes(response.data)
+      })
+      .catch((err) => console.error(err))
+  }
+
+  useEffect(() => {
+    getSuperlikes()
+  }, [])
+
+  if (!group) {
+    return <h1>You're not in a group</h1>
+  }
 
   //HTML
   return (
     <div className="group-page">
       <div className="header-container">
-        {isAdmin && (
-          <Link to={`/group/${id}/edit`} className="router-link">
-            <button className="edit-button">{<MdEdit size={20} />}</button>
-          </Link>
-        )}
         <img src={image} alt="Gruppebilde" />
         <h1 className="group-name-title">{name}</h1>
+        {isAdmin && (
+          <Link to={`/group/${id}/edit`} className="router-link">
+            <MdEdit size={40} />
+          </Link>
+        )}
       </div>
       <div className="group-main-info">
         <div className="under-container">
@@ -67,9 +82,26 @@ const YourGroupPage = ({ user, group }) => {
           <span className="bold">Membership: </span>
           {goldMembership ? "gold" : "normal"}
         </div>
-        {/* <div>
-          <span className="bold">When to meet:</span> {date}
-        </div> */}
+        <div>
+          <h2 className="your-group-matches-header">Matches</h2>
+          <div className="flex-center">
+            <MatchList group={group} />
+          </div>
+        </div>
+        <div>
+          <h2 className="your-group-matches-header">Superlikes</h2>
+          {superlikes && superlikes.length > 0 ? (
+            <div className="flex-center">
+              <GroupList
+                groups={superlikes}
+                selectGroup={false}
+                setGroup={setGroup}
+              />
+            </div>
+          ) : (
+            <h3>You have no superlikes</h3>
+          )}
+        </div>
       </div>
     </div>
   )

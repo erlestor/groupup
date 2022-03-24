@@ -17,10 +17,8 @@ const GroupPage = ({ user, group }) => {
   const [goldmembership, setGoldmembership] = useState(false)
   const [ageSpan, setAgeSpan] = useState(false)
   const [likedBy, setLikedBy] = useState([])
+  const [superLikedBy, setSuperLikedBy] = useState([])
   const [image, setImage] = useState("")
-
-  //Check if admin
-  const isAdmin = user && user.email === adminEmail
 
   useEffect(() => {
     getGroup()
@@ -45,6 +43,7 @@ const GroupPage = ({ user, group }) => {
             goldMembership,
             ageSpan,
             likedBy,
+            superLikedBy,
           } = matchingGroups[0]
           setName(name)
           setDescription(description)
@@ -57,6 +56,7 @@ const GroupPage = ({ user, group }) => {
           setGoldmembership(goldMembership)
           setAgeSpan(ageSpan)
           setLikedBy(likedBy)
+          setSuperLikedBy(superLikedBy)
         } else {
           console.error("no matching group")
         }
@@ -116,13 +116,24 @@ const GroupPage = ({ user, group }) => {
           <span className="bold">Membership: </span>
           {goldmembership ? "gold" : "normal"}
         </div>
-        {/* <div>
-          <span className="bold">When to meet:</span> {date}
-        </div> */}
       </div>
-      <button className="match-button" onClick={() => handleLike(false)}>
-        {likedBy && likedBy.includes(group.id) ? "Liked" : "Like"}
-      </button>
+      <div className="flex">
+        <button className="match-button" onClick={() => handleLike(false)}>
+          {(likedBy && likedBy.includes(group.id)) ||
+          (superLikedBy && superLikedBy.includes(group.id))
+            ? "Liked"
+            : "Like"}
+        </button>
+        {group.goldMembership ? (
+          <button className="match-button" onClick={() => handleLike(true)}>
+            {superLikedBy && superLikedBy.includes(group.id)
+              ? "Superliked"
+              : "Superlike"}
+          </button>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   )
 }

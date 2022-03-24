@@ -91,10 +91,13 @@
 
 .form-btn {
   width: 40%;
+  background-color: #2eaf7d;
+  color: white;
 }
 
 .btn-grey {
-  background-color: grey;
+  background-color: #033e46;
+  color: white;
 }
 
 .checkbox-container {
