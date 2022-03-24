@@ -6,9 +6,9 @@ const reviewSchema = mongoose.Schema({
   Descripiton: String,
   Points: {
       type: Number,
-      min: 0,
+      min: 1,
       max: 5
   }
 })
 
-export default mongoose.model("users", userSchema)
+export default mongoose.model("reviews", reviewSchema)
