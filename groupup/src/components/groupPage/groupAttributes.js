@@ -1,13 +1,13 @@
 export const allInterests = [
   "Quiz",
-  "Brettspill",
-  "Trav",
-  "Tur",
-  "Matlaging",
-  "Sport",
-  "Dataspill",
-  "Klatring",
-  "Frisbeegolf",
+  "Board games",
+  "Trotting",
+  "Hiking",
+  "Cooking",
+  "Sports",
+  "Video games",
+  "Climbing",
+  "Disc golf",
 ]
 
 export const fylker = [

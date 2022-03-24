@@ -49,7 +49,15 @@ const MatchList = ({ group }) => {
     getMatchedGroups()
   }, [groupIDs])
 
-  return <GroupList groups={groups} />
+  return (
+    <>
+      {groups.length > 0 ? (
+        <GroupList groups={groups} />
+      ) : (
+        <h2>You have no matches</h2>
+      )}
+    </>
+  )
 }
 
 export default MatchList

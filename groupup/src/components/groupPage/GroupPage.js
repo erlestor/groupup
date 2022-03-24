@@ -119,7 +119,10 @@ const GroupPage = ({ user, group }) => {
       </div>
       <div className="flex">
         <button className="match-button" onClick={() => handleLike(false)}>
-          {likedBy && likedBy.includes(group.id) ? "Liked" : "Like"}
+          {(likedBy && likedBy.includes(group.id)) ||
+          (superLikedBy && superLikedBy.includes(group.id))
+            ? "Liked"
+            : "Like"}
         </button>
         {group.goldMembership ? (
           <button className="match-button" onClick={() => handleLike(true)}>
