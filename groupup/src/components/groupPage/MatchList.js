@@ -51,9 +51,11 @@ const MatchList = ({ group }) => {
   return (
     <>
       {groups.length > 0 ? (
-        <GroupList groups={groups} showPhonenumber={true} />
+        <div className="flex-center">
+          <GroupList groups={groups} showPhonenumber={true} />
+        </div>
       ) : (
-        <h2>You have no matches</h2>
+        <h3>You have no matches</h3>
       )}
     </>
   )

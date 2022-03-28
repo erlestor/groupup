@@ -103,9 +103,7 @@ const YourGroupPage = ({ user, group, setGroup }) => {
       <BasicTabs
         item1={
           <div>
-            <div className="flex-center">
-              <MatchList group={group} />
-            </div>
+            <MatchList group={group} />
           </div>
         }
         item2={
