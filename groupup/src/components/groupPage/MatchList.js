@@ -34,7 +34,6 @@ const MatchList = ({ group }) => {
       .then((response) => {
         const groups = response.data
         setGroups(groups)
-        console.log(groups)
       })
       .catch((err) => {
         console.error(err)
@@ -51,7 +50,6 @@ const MatchList = ({ group }) => {
 
   return (
     <>
-      {console.log(groups)}
       {groups.length > 0 ? (
         <GroupList groups={groups} showPhonenumber={true} />
       ) : (
