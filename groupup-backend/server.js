@@ -521,7 +521,7 @@ app.post("/createPendingReview", (req, res) => {
 })
 
 app.post("/getReviewsByReviewedID", (req, res) => {
-  Reviews.find({ ReviewedID: req.body.reviewedID }, (err, data) => {
+  Reviews.find({ reviewedID: req.body.reviewedID }, (err, data) => {
     if (err) {
       res.status(500).send("Internal server error.")
     } else {
