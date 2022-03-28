@@ -67,7 +67,7 @@ const Review = ({ group, setGroup }) => {
           onChange={(event, newValue) => {
             setPoints(newValue)
           }}
-          defaultVal={2}
+          defaultVal={3}
         />
         <button
           className="match-button"
