@@ -5,7 +5,7 @@ import axios from "../../axios"
 import Rating from "./Rating"
 import { useParams, useNavigate } from "react-router-dom"
 
-const Review = ({ group }) => {
+const Review = ({ group, setGroup }) => {
   const [reviewText, setReviewText] = useState("")
   const [points, setPoints] = useState(2)
 
@@ -21,6 +21,7 @@ const Review = ({ group }) => {
         const matchingGroups = groups.filter((g) => g._id === group.id)
         if (matchingGroups.length > 0) {
           group = matchingGroups[0]
+          setGroup(group)
         } else {
           console.error("no matching group")
         }
@@ -45,7 +46,10 @@ const Review = ({ group }) => {
         description: reviewText,
         points: points,
       })
-      .then((response) => navigate("/group"))
+      .then((response) => {
+        getGroup()
+        navigate("/group")
+      })
       .catch((err) => console.error(err))
   }
 
@@ -63,6 +67,7 @@ const Review = ({ group }) => {
           onChange={(event, newValue) => {
             setPoints(newValue)
           }}
+          defaultVal={2}
         />
         <button
           className="match-button"

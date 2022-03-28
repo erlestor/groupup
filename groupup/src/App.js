@@ -56,7 +56,10 @@ function App() {
               element={<CreateGroup user={user} setGroup={setGroup} />}
             />
             <Route path="/match" element={<FilterGroups group={group} />} />
-            <Route path="/review/:id" element={<Review group={group} />} />
+            <Route
+              path="/review/:id"
+              element={<Review group={group} setGroup={setGroup} />}
+            />
           </Routes>
         ) : (
           <Routes>
