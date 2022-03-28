@@ -293,7 +293,6 @@ const dateToAge = (birthDate) => {
 app.put("/matchGroups", (req, res) => {
   if (req.body.groupIdToAddTo === req.body.groupIdToBeAdded) {
     res.status(400).send("Cannot match with self.")
-    return
   }
   Groups.find(
     { _id: { $in: [req.body.groupIdToAddTo, req.body.groupIdToBeAdded] } },
@@ -331,7 +330,22 @@ app.put("/matchGroups", (req, res) => {
                   if (err) {
                     res.status(500).send(err)
                   } else {
-                    res.status(200).send(data)
+                    Groups.findByIdAndUpdate(
+                      { _id: req.body.groupIdToAddTo },
+                      {
+                        $pull: {
+                          likedBy: req.body.groupIdToBeAdded,
+                          superLikedBy: req.body.groupIdToBeAdded,
+                        },
+                      },
+                      (err, data) => {
+                        if (err) {
+                          res.status(500).send(err)
+                        } else {
+                          res.status(200).send("gutta")
+                        }
+                      }
+                    )
                   }
                 }
               )
