@@ -12,6 +12,7 @@ import FilterGroups from "./components/groupPage/FilterGroups"
 import SelectGroup from "./components/groupPage/SelectGroup"
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Review from "./components/groupPage/Review"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -55,6 +56,10 @@ function App() {
               element={<CreateGroup user={user} setGroup={setGroup} />}
             />
             <Route path="/match" element={<FilterGroups group={group} />} />
+            <Route
+              path="/review/:id"
+              element={<Review group={group} setGroup={setGroup} />}
+            />
           </Routes>
         ) : (
           <Routes>

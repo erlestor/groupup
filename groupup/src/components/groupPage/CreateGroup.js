@@ -69,23 +69,23 @@ const CreateGroup = ({ user, setGroup }) => {
   const validateForm = () => {
     console.log(selectedInterests)
     if (groupName === "") {
-      setError("Fyll inn gruppenavn.")
+      setError("Enter group name.")
       return false
     }
     if (groupDescription === "") {
-      setError("Skriv en gruppebeskrivelse.")
+      setError("Enter group description.")
       return false
     }
     if (selectedInterests.length < 1) {
-      setError("Velg minst én interesse.")
+      setError("Pick atleast one interest.")
       return false
     }
     if (location === "") {
-      setError("Velg en lokasjon.")
+      setError("Pick a location.")
       return false
     }
     if (image === null) {
-      setError("Velg et bilde.")
+      setError("Choose a picture.")
       return false
     }
 
@@ -97,7 +97,7 @@ const CreateGroup = ({ user, setGroup }) => {
   return (
     <div className="container">
       <div className="form-container">
-        <h2 style={{ textAlign: "center" }}>Lag ny gruppe</h2>
+        <h2 style={{ textAlign: "center" }}>Create new group</h2>
         <form>
           <input
             required
@@ -116,7 +116,7 @@ const CreateGroup = ({ user, setGroup }) => {
           <input
             required
             className="group-input"
-            placeholder="phone number"
+            placeholder="Phone number"
             type="number"
             onChange={(e) => setPhonenumber(e.target.value)}
             id="group-name"
@@ -155,7 +155,7 @@ const CreateGroup = ({ user, setGroup }) => {
             required
           >
             <option disabled selected value="">
-              Velg lokasjon
+              Pick location
             </option>
             {fylker.map((fylke, i) => {
               return (
@@ -166,7 +166,7 @@ const CreateGroup = ({ user, setGroup }) => {
               )
             })}
           </select>
-          Velg et gruppebilde
+          Choose a group picture
           <ImageSelector
             callback={(img) => {
               setImage(img)
@@ -193,7 +193,7 @@ const CreateGroup = ({ user, setGroup }) => {
             id="create-group-btn"
             onClick={(e) => handleSubmit(e)}
           >
-            Lag gruppe
+            Create group
           </button>
         </form>
         <p className="error">{error}</p>

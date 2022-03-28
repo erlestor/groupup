@@ -20,6 +20,7 @@ const Group = ({
   superLikedBy,
   phonenumber,
   showPhonenumber,
+  pendingReviews,
 }) => {
   const navigate = useNavigate()
 
@@ -43,6 +44,7 @@ const Group = ({
         goldMembership,
         superLikedBy,
         phonenumber,
+        pendingReviews,
       })
       navigate(`/match`)
     } else navigate(`/group/${id}`)

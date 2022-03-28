@@ -99,105 +99,86 @@ const FilterGroups = ({ group }) => {
       {group ? (
         <div className="filter-page">
           <div className="filters">
-            <div className="filter-headers">
-              <h2>Apply to filter groups</h2>
-              {showFilters ? (
-                <BsArrowsAngleContract
-                  onClick={() => setShowFilters(false)}
-                  className="icon"
-                  size={20}
+            <div className="filter-headers"></div>
+            <form className="filter-forms-container">
+              <div className="interest-container">
+                {allInterests.map((interest, i) => {
+                  return (
+                    <InterestCheckBox
+                      key={i}
+                      title={interest}
+                      callback={(checked) => {
+                        if (checked) {
+                          setSelectedInterests([...selectedInterests, interest])
+                        } else {
+                          const newInterests = selectedInterests.filter(
+                            (i) => i !== interest
+                          )
+                          setSelectedInterests(newInterests)
+                        }
+                      }}
+                      selectedInterests={selectedInterests}
+                    />
+                  )
+                })}
+              </div>
+
+              <select
+                className="group-input select-fylke"
+                onChange={(e) => setLocation(e.target.value)}
+                style={{ margin: "10px" }}
+                required
+              >
+                <option selected value="">
+                  Pick location
+                </option>
+                {fylker.map((fylke, i) => {
+                  return (
+                    <option key={i} value={fylke}>
+                      {" "}
+                      {fylke}
+                    </option>
+                  )
+                })}
+              </select>
+              <div className="filter-input-container">
+                <input
+                  className="ageMin-input"
+                  type="number"
+                  placeholder="Minimum age"
+                  onChange={(e) => setAgeMin(e.target.value)}
                 />
-              ) : (
-                <BsArrowsAngleExpand
-                  onClick={() => setShowFilters(true)}
-                  className="icon"
-                  size={20}
+
+                <input
+                  className="ageMax-input"
+                  type="number"
+                  placeholder="Maximum age"
+                  onChange={(e) => setAgeMax(e.target.value)}
                 />
-              )}
-            </div>
-            {showFilters && (
-              <form className="filter-forms-container">
-                <div className="interest-container">
-                  {allInterests.map((interest, i) => {
-                    return (
-                      <InterestCheckBox
-                        key={i}
-                        title={interest}
-                        callback={(checked) => {
-                          if (checked) {
-                            setSelectedInterests([
-                              ...selectedInterests,
-                              interest,
-                            ])
-                          } else {
-                            const newInterests = selectedInterests.filter(
-                              (i) => i !== interest
-                            )
-                            setSelectedInterests(newInterests)
-                          }
-                        }}
-                        selectedInterests={selectedInterests}
-                      />
-                    )
-                  })}
-                </div>
 
-                <select
-                  className="group-input select-fylke"
-                  onChange={(e) => setLocation(e.target.value)}
-                  required
-                >
-                  <option selected value="">
-                    Pick location
-                  </option>
-                  {fylker.map((fylke, i) => {
-                    return (
-                      <option key={i} value={fylke}>
-                        {" "}
-                        {fylke}
-                      </option>
-                    )
-                  })}
-                </select>
-                <div className="filter-input-container">
-                  <input
-                    className="ageMin-input"
-                    type="number"
-                    placeholder="Minimum age"
-                    onChange={(e) => setAgeMin(e.target.value)}
-                  />
+                <input
+                  className="groupCountMin-input"
+                  type="number"
+                  placeholder="Minimum group size"
+                  onChange={(e) => setGroupCountMin(e.target.value)}
+                />
 
-                  <input
-                    className="ageMax-input"
-                    type="number"
-                    placeholder="Maximum age"
-                    onChange={(e) => setAgeMax(e.target.value)}
-                  />
+                <input
+                  className="groupCountMax-input"
+                  type="number"
+                  placeholder="Maximum group size"
+                  onChange={(e) => setGroupCountMax(e.target.value)}
+                />
 
-                  <input
-                    className="groupCountMin-input"
-                    type="number"
-                    placeholder="Minimum group size"
-                    onChange={(e) => setGroupCountMin(e.target.value)}
-                  />
-
-                  <input
-                    className="groupCountMax-input"
-                    type="number"
-                    placeholder="Maximum group size"
-                    onChange={(e) => setGroupCountMax(e.target.value)}
-                  />
-
-                  <input
-                    type={dateInputType}
-                    placeholder="Meetingdate"
-                    onFocus={() => setDateInputType("date")}
-                    value={meetingDate}
-                    onChange={(e) => setMeetingDate(e.target.value)}
-                  />
-                </div>
-              </form>
-            )}
+                <input
+                  type={dateInputType}
+                  placeholder="Meetingdate"
+                  onFocus={() => setDateInputType("date")}
+                  value={meetingDate}
+                  onChange={(e) => setMeetingDate(e.target.value)}
+                />
+              </div>
+            </form>
           </div>
           <GroupList groups={filteredGroups} />
         </div>

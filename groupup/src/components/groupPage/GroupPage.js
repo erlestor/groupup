@@ -3,6 +3,7 @@ import "./group.css"
 import { MdEdit } from "react-icons/md"
 import axios from "../../axios"
 import { useParams, Link } from "react-router-dom"
+import ReviewsBox from "./ReviewsBox"
 
 const GroupPage = ({ user, group }) => {
   const { matchGroupId } = useParams()
@@ -19,9 +20,16 @@ const GroupPage = ({ user, group }) => {
   const [likedBy, setLikedBy] = useState([])
   const [superLikedBy, setSuperLikedBy] = useState([])
   const [image, setImage] = useState("")
+  const [phonenumber, setPhonenumber] = useState(null)
+
+  const [matchedWith, setMatchedWith] = useState(false)
+
+  const [reviews, setReviews] = useState([])
 
   useEffect(() => {
     getGroup()
+    checkMatched()
+    getReviews()
   }, [])
 
   const getGroup = async () => {
@@ -44,6 +52,7 @@ const GroupPage = ({ user, group }) => {
             ageSpan,
             likedBy,
             superLikedBy,
+            phonenumber,
           } = matchingGroups[0]
           setName(name)
           setDescription(description)
@@ -57,6 +66,7 @@ const GroupPage = ({ user, group }) => {
           setAgeSpan(ageSpan)
           setLikedBy(likedBy)
           setSuperLikedBy(superLikedBy)
+          setPhonenumber(phonenumber)
         } else {
           console.error("no matching group")
         }
@@ -73,13 +83,40 @@ const GroupPage = ({ user, group }) => {
         groupIdToAddTo: matchGroupId,
         superLike: superlike,
       })
-      .then((response) => {
-        console.log(response)
-      })
+      .then((response) => {})
       .catch((err) => console.error(err))
 
     getGroup()
+    checkMatched()
+    getReviews()
   }
+
+  const getReviews = async () => {
+    await axios
+      .post("/getReviewsByReviewedID", { reviewedID: group.id })
+      .then((response) => {
+        setReviews(response.data)
+        console.log(response.data)
+      })
+      .catch((err) => console.error(err))
+  }
+
+  const checkMatched = async () => {
+    await axios
+      .post("/getMatchesById", {
+        groupId: matchGroupId,
+      })
+      .then((response) => {
+        console.log(response)
+        response.data.forEach((match) => {
+          if (match.matchedID === group.id || match.matcherID === group.id)
+            setMatchedWith(true)
+        })
+      })
+      .catch((err) => console.error(err))
+  }
+  // TODO
+  // finn ut om de har matchet, isåfall vis: tlfnr, knapp for meeting finished
 
   //HTML
   return (
@@ -90,24 +127,22 @@ const GroupPage = ({ user, group }) => {
       </div>
 
       <div className="group-main-info">
-        <div className="under-container">
+        <div className="boxes-container">
           <div className="left-container">
-            <div className="members-container">
+            <div className="info-container">
               <span className="bold">Members:</span> {members.join(", ")}
             </div>
-            <div className="interests-container">
+            <div className="info-container">
               <span className="bold">Interests:</span> {interests.join(", ")}
             </div>
-          </div>
-          <div className="right-container">
-            <div className="info-container">
+            <div className="info-container description-container">
               <span className="bold">Description:</span> {description}
             </div>
           </div>
+          <ReviewsBox reviews={reviews} />
         </div>
-        <div>
-          <span className="bold">Location:</span> {location}
-        </div>
+        <span className="bold">Location:</span>
+        {location}
         <div>
           <span className="bold">Age span:</span>{" "}
           {ageSpan[0] + "-" + ageSpan[1]}
@@ -116,24 +151,36 @@ const GroupPage = ({ user, group }) => {
           <span className="bold">Membership: </span>
           {goldmembership ? "gold" : "normal"}
         </div>
-      </div>
-      <div className="flex">
-        <button className="match-button" onClick={() => handleLike(false)}>
-          {(likedBy && likedBy.includes(group.id)) ||
-          (superLikedBy && superLikedBy.includes(group.id))
-            ? "Liked"
-            : "Like"}
-        </button>
-        {group.goldMembership ? (
-          <button className="match-button" onClick={() => handleLike(true)}>
-            {superLikedBy && superLikedBy.includes(group.id)
-              ? "Superliked"
-              : "Superlike"}
-          </button>
-        ) : (
-          <></>
+        {matchedWith && (
+          <div>
+            <span className="bold">Contact: </span>
+            {phonenumber}
+          </div>
         )}
       </div>
+      {matchedWith ? (
+        <Link to={`/review/${matchGroupId}`}>
+          <button className="match-button">Conclude meeting</button>
+        </Link>
+      ) : (
+        <div className="flex">
+          <button className="match-button" onClick={() => handleLike(false)}>
+            {(likedBy && likedBy.includes(group.id)) ||
+            (superLikedBy && superLikedBy.includes(group.id))
+              ? "Liked"
+              : "Like"}
+          </button>
+          {group.goldMembership ? (
+            <button className="match-button" onClick={() => handleLike(true)}>
+              {superLikedBy && superLikedBy.includes(group.id)
+                ? "Superliked"
+                : "Superlike"}
+            </button>
+          ) : (
+            <></>
+          )}
+        </div>
+      )}
     </div>
   )
 }
