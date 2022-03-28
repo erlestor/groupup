@@ -14,6 +14,7 @@ const groupSchema = mongoose.Schema({
   superLikedBy: [String],
   goldMembership: Boolean,
   phonenumber: Number,
+  pendingReviews: [String],
 })
 
 export default mongoose.model("groups", groupSchema)
