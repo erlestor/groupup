@@ -135,7 +135,7 @@ const YourGroupPage = ({ user, group, setGroup }) => {
         }
         item3={
           <div>
-            {pendingReviewGroups && pendingReviewGroups.length > 0 ? (
+            {group && pendingReviewGroups && pendingReviewGroups.length > 0 ? (
               <div className="flex-center">
                 {pendingReviewGroups.map((group, groupIdx) => (
                   <Link
