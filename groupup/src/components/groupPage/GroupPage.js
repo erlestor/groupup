@@ -93,7 +93,7 @@ const GroupPage = ({ user, group }) => {
 
   const getReviews = async () => {
     await axios
-      .post("/getReviewsByReviewedID", { reviewedID: group.id })
+      .post("/getReviewsByReviewedID", { reviewedID: matchGroupId })
       .then((response) => {
         setReviews(response.data)
         console.log(response.data)
