@@ -11,8 +11,12 @@
 .filter-forms-container .interest-container {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 10px;
+}
+
+.interest-container {
+  margin-left: 10px;
 }
 
 .filter-input-container {
@@ -26,7 +30,6 @@
   border: 1px solid black;
   min-width: 150px;
   border-radius: 5px;
-  
 }
 
 .filter-headers {
