@@ -3,6 +3,7 @@ import "./group.css"
 import { MdEdit } from "react-icons/md"
 import axios from "../../axios"
 import { useParams, Link } from "react-router-dom"
+import ReviewsBox from "./ReviewsBox"
 
 const GroupPage = ({ user, group }) => {
   const { matchGroupId } = useParams()
@@ -23,9 +24,12 @@ const GroupPage = ({ user, group }) => {
 
   const [matchedWith, setMatchedWith] = useState(false)
 
+  const [reviews, setReviews] = useState([])
+
   useEffect(() => {
     getGroup()
     checkMatched()
+    getReviews()
   }, [])
 
   const getGroup = async () => {
@@ -83,6 +87,18 @@ const GroupPage = ({ user, group }) => {
       .catch((err) => console.error(err))
 
     getGroup()
+    checkMatched()
+    getReviews()
+  }
+
+  const getReviews = async () => {
+    await axios
+      .post("/getReviewsByReviewedID", { reviewedID: group.id })
+      .then((response) => {
+        setReviews(response.data)
+        console.log(response.data)
+      })
+      .catch((err) => console.error(err))
   }
 
   const checkMatched = async () => {
@@ -111,24 +127,22 @@ const GroupPage = ({ user, group }) => {
       </div>
 
       <div className="group-main-info">
-        <div className="under-container">
+        <div className="boxes-container">
           <div className="left-container">
-            <div className="members-container">
+            <div className="info-container">
               <span className="bold">Members:</span> {members.join(", ")}
             </div>
-            <div className="interests-container">
+            <div className="info-container">
               <span className="bold">Interests:</span> {interests.join(", ")}
             </div>
-          </div>
-          <div className="right-container">
-            <div className="info-container">
+            <div className="info-container description-container">
               <span className="bold">Description:</span> {description}
             </div>
           </div>
+          <ReviewsBox reviews={reviews} />
         </div>
-        <div>
-          <span className="bold">Location:</span> {location}
-        </div>
+        <span className="bold">Location:</span>
+        {location}
         <div>
           <span className="bold">Age span:</span>{" "}
           {ageSpan[0] + "-" + ageSpan[1]}

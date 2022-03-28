@@ -10,10 +10,12 @@ import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
 import BasicTabs from "./BasicTabs"
 import Group from "./Group"
+import ReviewsBox from "./ReviewsBox"
 
 const YourGroupPage = ({ user, group, setGroup }) => {
   const [superlikes, setSuperlikes] = useState([])
   const [pendingReviewGroups, setPendingReviewGroups] = useState([])
+  const [reviews, setReviews] = useState([])
 
   const {
     name,
@@ -51,9 +53,20 @@ const YourGroupPage = ({ user, group, setGroup }) => {
       .catch((err) => console.error(err))
   }
 
+  const getReviews = async () => {
+    await axios
+      .post("/getReviewsByReviewedID", { reviewedID: group.id })
+      .then((response) => {
+        setReviews(response.data)
+        console.log(response.data)
+      })
+      .catch((err) => console.error(err))
+  }
+
   useEffect(() => {
     getSuperlikes()
     getReviewGroups()
+    getReviews()
   }, [])
 
   if (!group) {
@@ -73,20 +86,19 @@ const YourGroupPage = ({ user, group, setGroup }) => {
         )}
       </div>
       <div className="group-main-info">
-        <div className="under-container">
+        <div className="boxes-container">
           <div className="left-container">
-            <div className="members-container">
+            <div className="info-container">
               <span className="bold">Members:</span> {members.join(", ")}
             </div>
-            <div className="interests-container">
+            <div className="info-container">
               <span className="bold">Interests:</span> {interests.join(", ")}
             </div>
-          </div>
-          <div className="right-container">
-            <div className="info-container">
+            <div className="info-container description-container">
               <span className="bold">Description:</span> {description}
             </div>
           </div>
+          <ReviewsBox reviews={reviews} />
         </div>
         <div>
           <span className="bold">Location:</span> {location}
