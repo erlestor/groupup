@@ -6,8 +6,14 @@ import axios from "../../axios"
 import MatchList from "./MatchList"
 import GroupList from "./GroupList"
 
+import Tabs from "@mui/material/Tabs"
+import Tab from "@mui/material/Tab"
+import BasicTabs from "./BasicTabs"
+import Group from "./Group"
+
 const YourGroupPage = ({ user, group, setGroup }) => {
   const [superlikes, setSuperlikes] = useState([])
+  const [pendingReviewGroups, setPendingReviewGroups] = useState([])
 
   const {
     name,
@@ -18,9 +24,9 @@ const YourGroupPage = ({ user, group, setGroup }) => {
     image,
     adminEmail,
     goldMembership,
-    id,
     ageSpan,
     superLikedBy,
+    pendingReviews,
   } = group
 
   //Check if admin
@@ -35,8 +41,19 @@ const YourGroupPage = ({ user, group, setGroup }) => {
       .catch((err) => console.error(err))
   }
 
+  const getReviewGroups = async () => {
+    await axios
+      .post("/getGroupsByIds", { idList: pendingReviews })
+      .then((response) => {
+        setPendingReviewGroups(response.data)
+        console.log(response.data)
+      })
+      .catch((err) => console.error(err))
+  }
+
   useEffect(() => {
     getSuperlikes()
+    getReviewGroups()
   }, [])
 
   if (!group) {
@@ -82,27 +99,66 @@ const YourGroupPage = ({ user, group, setGroup }) => {
           <span className="bold">Membership: </span>
           {goldMembership ? "gold" : "normal"}
         </div>
-        <div>
-          <h2 className="your-group-matches-header">Matches</h2>
-          <div className="flex-center">
-            <MatchList group={group} />
-          </div>
-        </div>
-        <div>
-          <h2 className="your-group-matches-header">Superlikes</h2>
-          {superlikes && superlikes.length > 0 ? (
-            <div className="flex-center">
-              <GroupList
-                groups={superlikes}
-                selectGroup={false}
-                setGroup={setGroup}
-              />
-            </div>
-          ) : (
-            <h3>You have no superlikes</h3>
-          )}
-        </div>
       </div>
+      <BasicTabs
+        item1={
+          <div>
+            <div className="flex-center">
+              <MatchList group={group} />
+            </div>
+          </div>
+        }
+        item2={
+          <div>
+            {superlikes && superlikes.length > 0 ? (
+              <div className="flex-center">
+                <GroupList
+                  groups={superlikes}
+                  selectGroup={false}
+                  setGroup={setGroup}
+                />
+              </div>
+            ) : (
+              <h3>You have no superlikes</h3>
+            )}
+          </div>
+        }
+        item3={
+          <div>
+            {pendingReviewGroups && pendingReviewGroups.length > 0 ? (
+              <div className="flex-center">
+                {pendingReviewGroups.map((group, groupIdx) => (
+                  <Link
+                    to={`/review/${group._id}`}
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <Group
+                      name={group.name}
+                      id={group._id}
+                      description={group.description}
+                      members={group.members}
+                      interests={group.interests}
+                      location={group.location}
+                      meetingDate={group.date}
+                      image={group.image}
+                      ageSpan={group.ageSpan}
+                      adminEmail={group.adminEmail}
+                      goldMembership={group.goldMembership}
+                      phonenumber={group.phonenumber}
+                      superLikedBy={group.superLikedBy}
+                      pendingReviews={group.pendingReviews}
+                      setGroup={setGroup}
+                      key={groupIdx}
+                    />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <h3>You have no superlikes</h3>
+            )}
+          </div>
+        }
+      />
     </div>
   )
 }

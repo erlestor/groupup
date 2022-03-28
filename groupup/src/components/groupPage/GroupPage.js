@@ -19,9 +19,13 @@ const GroupPage = ({ user, group }) => {
   const [likedBy, setLikedBy] = useState([])
   const [superLikedBy, setSuperLikedBy] = useState([])
   const [image, setImage] = useState("")
+  const [phonenumber, setPhonenumber] = useState(null)
+
+  const [matchedWith, setMatchedWith] = useState(false)
 
   useEffect(() => {
     getGroup()
+    checkMatched()
   }, [])
 
   const getGroup = async () => {
@@ -44,6 +48,7 @@ const GroupPage = ({ user, group }) => {
             ageSpan,
             likedBy,
             superLikedBy,
+            phonenumber,
           } = matchingGroups[0]
           setName(name)
           setDescription(description)
@@ -57,6 +62,7 @@ const GroupPage = ({ user, group }) => {
           setAgeSpan(ageSpan)
           setLikedBy(likedBy)
           setSuperLikedBy(superLikedBy)
+          setPhonenumber(phonenumber)
         } else {
           console.error("no matching group")
         }
@@ -73,13 +79,28 @@ const GroupPage = ({ user, group }) => {
         groupIdToAddTo: matchGroupId,
         superLike: superlike,
       })
-      .then((response) => {
-        console.log(response)
-      })
+      .then((response) => {})
       .catch((err) => console.error(err))
 
     getGroup()
   }
+
+  const checkMatched = async () => {
+    await axios
+      .post("/getMatchesById", {
+        groupId: matchGroupId,
+      })
+      .then((response) => {
+        console.log(response)
+        response.data.forEach((match) => {
+          if (match.matchedID === group.id || match.matcherID === group.id)
+            setMatchedWith(true)
+        })
+      })
+      .catch((err) => console.error(err))
+  }
+  // TODO
+  // finn ut om de har matchet, isåfall vis: tlfnr, knapp for meeting finished
 
   //HTML
   return (
@@ -116,24 +137,36 @@ const GroupPage = ({ user, group }) => {
           <span className="bold">Membership: </span>
           {goldmembership ? "gold" : "normal"}
         </div>
-      </div>
-      <div className="flex">
-        <button className="match-button" onClick={() => handleLike(false)}>
-          {(likedBy && likedBy.includes(group.id)) ||
-          (superLikedBy && superLikedBy.includes(group.id))
-            ? "Liked"
-            : "Like"}
-        </button>
-        {group.goldMembership ? (
-          <button className="match-button" onClick={() => handleLike(true)}>
-            {superLikedBy && superLikedBy.includes(group.id)
-              ? "Superliked"
-              : "Superlike"}
-          </button>
-        ) : (
-          <></>
+        {matchedWith && (
+          <div>
+            <span className="bold">Contact: </span>
+            {phonenumber}
+          </div>
         )}
       </div>
+      {matchedWith ? (
+        <Link to={`/review/${matchGroupId}`}>
+          <button className="match-button">Conclude meeting</button>
+        </Link>
+      ) : (
+        <div className="flex">
+          <button className="match-button" onClick={() => handleLike(false)}>
+            {(likedBy && likedBy.includes(group.id)) ||
+            (superLikedBy && superLikedBy.includes(group.id))
+              ? "Liked"
+              : "Like"}
+          </button>
+          {group.goldMembership ? (
+            <button className="match-button" onClick={() => handleLike(true)}>
+              {superLikedBy && superLikedBy.includes(group.id)
+                ? "Superliked"
+                : "Superlike"}
+            </button>
+          ) : (
+            <></>
+          )}
+        </div>
+      )}
     </div>
   )
 }
