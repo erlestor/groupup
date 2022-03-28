@@ -302,10 +302,10 @@ app.put("/matchGroups", (req, res) => {
         res.send(500).status("Internal server error.")
       }
 
-      
-      
-      const groupToBeAdded = groups.filter(g => JSON.stringify(g._id) === `"${req.body.groupIdToBeAdded}"`)[0]
-      
+      const groupToBeAdded = groups.filter(
+        (g) => JSON.stringify(g._id) === `"${req.body.groupIdToBeAdded}"`
+      )[0]
+
       if (
         groupToBeAdded.likedBy.includes(req.body.groupIdToAddTo) ||
         groupToBeAdded.superLikedBy.includes(req.body.groupIdToAddTo)
@@ -421,25 +421,93 @@ app.post("/getGroupsByIds", (req, res) => {
   })
 })
 
-app.post("/createReview", (req, res) => {
+/*
 
+body = {
+  reviewedID: id til den som blir vurdert,
+  reviewerID: id til den som vurderer,
+  description: desc,
+  points: nummer fra 1 - 5
+}
+
+*/
+
+app.post("/createReview", (req, res) => {
   if (req.body.reviewerID === req.body.reviewedID) {
     res.status(400).send("Group cannot review itself.")
   }
 
-  const dbReview = req.body;
+  const dbReview = req.body
+  const reviewed = req.body.reviewedID
+  const reviewer = req.body.reviewerID
+
+  Reviews.create(dbReview, (err, data) => {
+    if (err) {
+      res.status(501).send("Internal server error. 1")
+    } else {
+      let l = [req.body.reviewedID, req.body.reviewerID]
+      Matches.findOneAndDelete(
+        { $and: [{ matcherID: { $in: l } }, { matchedID: { $in: l } }] },
+        (err, match) => {
+          if (err) {
+            res.status(502).send("Internal server error. 2")
+          } else {
+            Groups.findByIdAndUpdate(
+              { _id: reviewed },
+              { $addToSet: { pendingReviews: reviewer } },
+              (err, group) => {
+                if (err) {
+                  res.status(503).send("Internal server error. 3")
+                } else {
+                  res.status(200).send(data)
+                }
+              }
+            )
+          }
+        }
+      )
+    }
+  })
+})
+/**
+ * body = {
+ *
+ *  reviewerID: ,
+ *  reviewedID: ,
+ *  description: ,
+ *  points:
+ * }
+ */
+app.post("/createPendingReview", (req, res) => {
+  if (req.body.reviewerID === req.body.reviewedID) {
+    res.status(400).send("Group cannot review itself.")
+  }
+
+  const dbReview = req.body
+  const reviewed = req.body.reviewedID
+  const reviewer = req.body.reviewerID
+
   Reviews.create(dbReview, (err, data) => {
     if (err) {
       res.status(500).send("Internal server error.")
     } else {
-      res.status(200).send(data)
+      Groups.findByIdAndUpdate(
+        { _id: reviewer },
+        { $pull: { pendingReviews: reviewed } },
+        (err, group) => {
+          if (err) {
+            res.status(500).send("Internal server error.")
+          } else {
+            res.status(200).send(data)
+          }
+        }
+      )
     }
   })
-
 })
 
-app.post("/getReviewsByReviewed", (req, res) => {
-  Reviews.find({ReviewedID: req.body.reviewedID}, (err, data) => {
+app.post("/getReviewsByReviewedID", (req, res) => {
+  Reviews.find({ ReviewedID: req.body.reviewedID }, (err, data) => {
     if (err) {
       res.status(500).send("Internal server error.")
     } else {
