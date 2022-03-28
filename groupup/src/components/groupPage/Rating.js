@@ -39,11 +39,11 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 }
 
-export default function RadioGroupRating({ onChange }) {
+export default function RadioGroupRating({ onChange, defaultVal }) {
   return (
     <Rating
       name="highlight-selected-only"
-      defaultValue={2}
+      defaultValue={defaultVal}
       IconContainerComponent={IconContainer}
       highlightSelectedOnly
       onChange={onChange}

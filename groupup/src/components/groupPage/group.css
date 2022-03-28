@@ -148,62 +148,49 @@
   user-select: none;
   background-image: linear-gradient(to left, #2eaf7eb0, #2eaf7d);
 }
-.under-container {
-  display: flex;
-  flex-direction: row;
-  border-radius: 15px;
-  user-select: none;
-  background-color: white;
-  margin-top: 20px;
-}
+
 .left-container {
   display: flex;
   flex-direction: column;
-  min-height: 500px;
   width: 50%;
   border-radius: 15px;
-  padding: 10px 10px 10px 0;
   user-select: none;
-  background-color: white;
+  margin: 20px 20px 0 0;
 }
-.right-container {
+
+.description-container {
+  min-height: 135px;
+  overflow-y: scroll;
+}
+
+.reviews-container {
   display: flex;
   flex-direction: column;
-  min-height: 500px;
   width: 50%;
+  margin: 20px 0px 20px 20px;
+  padding: 10px;
   border-radius: 15px;
-  padding: 10px 0 10px 10px;
   user-select: none;
-  background-color: white;
-}
-.members-container {
-  display: flex;
-  width: auto;
-  height: 50%;
-  flex-direction: column;
-  margin: 0px 0px 20px 0px;
-  border-radius: 15px;
-  padding: 10px 10px 10px 10px;
-  user-select: none;
-  background-color: white;
   outline: 1px solid black;
+  overflow-y: scroll;
+  max-height: 300px;
 }
-.interests-container {
+
+.review-small {
+  outline: 1px solid grey;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.boxes-container {
   display: flex;
-  width: auto;
-  height: 50%;
-  flex-direction: column;
-  margin: 0px 0px 20px 0px;
-  border-radius: 15px;
-  padding: 10px 10px 10px 10px;
-  user-select: none;
-  background-color: white;
-  outline: 1px solid black;
 }
+
 .info-container {
   display: flex;
   width: auto;
-  height: 100%;
   flex-direction: column;
   margin: 0px 0px 20px 0px;
   border-radius: 15px;
