@@ -164,7 +164,7 @@ const YourGroupPage = ({ user, group, setGroup }) => {
                 ))}
               </div>
             ) : (
-              <h3>You have no superlikes</h3>
+              <h3>You have no pending reviews</h3>
             )}
           </div>
         }
