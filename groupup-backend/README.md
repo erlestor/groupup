@@ -1,5 +1,9 @@
 # GroupUp-backend
 
+## Run
+
+To run our backend open the groupup-backend folder in the terminal and enter: "npm i && npm start"
+
 ## Testing
 
 Our backend tests are written in the testing framework [cypress](https://docs.cypress.io/).

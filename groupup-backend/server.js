@@ -11,13 +11,13 @@ import Reviews from "./schemas/dbReview.js"
 //Config
 const app = express()
 
-const port = process.env.port || 8001
+const port = process.env.port || 8002
+const password = "Ja5kj02gFMoamDUf"
 const connectionUrl =
-  "mongodb+srv://admin:Ja5kj02gFMoamDUf@cluster0.s0siz.mongodb.net/groupupdb?retryWrites=true&w=majority"
+  "mongodb://admin:admin@ac-reyvsy9-shard-00-00.phagtr1.mongodb.net:27017,ac-reyvsy9-shard-00-01.phagtr1.mongodb.net:27017,ac-reyvsy9-shard-00-02.phagtr1.mongodb.net:27017/?ssl=true&replicaSet=atlas-ftnqut-shard-0&authSource=admin&retryWrites=true&w=majority"
 
 app.use(express.json())
 app.use(Cors())
-app.use(bodyparser.json())
 
 mongoose.connect(connectionUrl, {
   useNewUrlParser: true,
