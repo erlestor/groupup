@@ -8,5 +8,5 @@ Group project in Programvareutvikling. We were a group of 6 people and we were m
 
 ## See these respective readmes
 
-- [backend readme](groupup-backend/README.md)]
-- [frontend readme](groupup-frontend/README.md)]
+- [backend readme](groupup-backend/README.md)
+- [frontend readme](groupup-frontend/README.md)
