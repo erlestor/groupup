@@ -14,7 +14,7 @@ const app = express()
 const port = process.env.port || 8002
 const password = "Ja5kj02gFMoamDUf"
 const connectionUrl =
-  "mongodb://admin:admin@ac-reyvsy9-shard-00-00.phagtr1.mongodb.net:27017,ac-reyvsy9-shard-00-01.phagtr1.mongodb.net:27017,ac-reyvsy9-shard-00-02.phagtr1.mongodb.net:27017/?ssl=true&replicaSet=atlas-ftnqut-shard-0&authSource=admin&retryWrites=true&w=majority"
+  "---- fill in yourself ----"
 
 app.use(express.json())
 app.use(Cors())
